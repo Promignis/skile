@@ -6,6 +6,8 @@ var passport = require('passport');
 var User = require('../models/User');
 var secrets = require('../config/secrets');
 
+
+
 /**
  * GET /login
  * Login page.
@@ -41,7 +43,7 @@ exports.postLogin = function(req, res, next) {
     req.logIn(user, function(err) {
       if (err) return next(err);
       req.flash('success', { msg: 'Success! You are logged in.' });
-      res.redirect(req.session.returnTo || '/');
+      res.redirect('/');
     });
   })(req, res, next);
 };

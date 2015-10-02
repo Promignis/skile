@@ -1,0 +1,30 @@
+extends layout
+block content
+  .page-header
+    h3 Add Link
+  form.form-horizontal(method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
+    .form-group
+      label.col-sm-3.control-label(for='title') Title
+      .col-sm-7
+        input.form-control(type='text', name='title', id='title', placeholder='title')
+    .form-group
+      label.col-sm-3.control-label(for='link') Link
+      .col-sm-7
+        input.form-control(type='text', name='url', id='link', placeholder='Link', autofocus=true)
+    .form-group
+      label.col-sm-3.control-label(for='Category') Category
+      .col-sm-7
+        input.form-control(type='text', name='category', id='category', placeholder='Category')
+    .form-group
+      label.col-sm-3.control-label(for='tags') Tags
+      .col-sm-7
+        input.form-control(type='text', name='tags', id='tags', placeholder='tags')
+
+    .form-group
+      label.col-sm-3.control-label(for='description') Description
+      .col-sm-7
+        textarea.form-control(type='text', name='description', id='description', rows="5",placeholder='description')
+    .form-group
+      .col-sm-offset-3.col-sm-7
+        button.col-sm-3.btn.btn-primary(type='submit') Add Link

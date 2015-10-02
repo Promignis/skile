@@ -403,8 +403,12 @@ passport.use('venmo', new OAuth2Strategy({
  * Login Required middleware.
  */
 exports.isAuthenticated = function(req, res, next) {
-  if (req.isAuthenticated()) return next();
-  res.redirect('/login');
+  if (req.isAuthenticated()){
+    return next();  
+  }else{
+    req.session.returnTo = req.path;
+    res.redirect('/login');
+  }  
 };
 
 /**
@@ -416,6 +420,7 @@ exports.isAuthorized = function(req, res, next) {
   if (_.find(req.user.tokens, { kind: provider })) {
     next();
   } else {
+    console.log("is in autorized");
     res.redirect('/auth/' + provider);
   }
 };
