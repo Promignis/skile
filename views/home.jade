@@ -2,20 +2,12 @@ extends layout
 
 block content
   div.row.well
-    div.col-md-4
-      h3 Learn anything 
-    div.col-md-4
-      h3 Teach from the internet
-    div.col-md-4
-      h3 Gotta catch em all
+    div.col-md-8.col-md-offset-2
+      h3 Learn anything from the internet, this is where learning begins!
   div.row.categories
-    h3 Categories
-    div.col-md-4
-      button.btn.btn-warning
-        h3 Programming
-    div.col-md-4
-      button.btn.btn-warning
-        h3 Design
-    div.col-md-4
-      button.btn.btn-warning
-        h3 Game
+    h3 Latest Categories
+    each category in categories
+      div.col-md-4
+        button.btn.btn-warning
+          h3 
+            =category.title
