@@ -1,18 +1,21 @@
 extends layout
 
 block content
-  div.row.well
-    div.col-md-8.col-md-offset-2
-      h3 Learn anything from the internet, this is where learning begins!
+  div.row
+    div.col-md-8.col-md-offset-2.slogan.well
+      h3 Learn how to learn, this is where learning begins!
   div.row.categories
     h3 Latest Categories
     each category in categories
       div.col-md-4
-        button.btn.btn-warning
-          h3 
+        a(href="/category/"+category.title) 
+          button.btn.btn-primary           
             =category.title
- // else
- //   div.row
- //     div.col-md-2.col-md-offset-5
- //       a(href='/login') 
- //         button.btn.btn-primary Login to begin learning
+  div.row.links
+    h3 Latest Links
+    each link in links
+      div.col-md-4
+        a(href="/"+link._category+"/"+link._id) 
+          button.btn.btn-primary           
+            =link.title
+      

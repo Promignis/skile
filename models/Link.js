@@ -8,7 +8,8 @@ var linkSchema = new Schema({
   url: { type: String, unique: true, lowercase: true, required: true },
   description: String,
   _creator: ObjectId,
-  _category: ObjectId,
+  _categoryId: ObjectId,
+  _category: String,
   tags: [ String ],
   addedOn: { type: Date, default: Date.Now}
 });

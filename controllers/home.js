@@ -1,4 +1,5 @@
 var Category = require('../models/Category.js');
+var Link = require('../models/Link.js');
 /**
  * GET /
  * Home page.
@@ -8,10 +9,14 @@ exports.index = function(req, res) {
 		if(err){
 			return console.err(err);
 		}else{
-			res.render('home', {
-				title: 'Home',
-				categories: cats
-				});		
+			Link.find({}).sort({'addedOn':-1}).limit(3).exec(function(err, links){
+				if(err)return console.err(err);				
+				res.render('home', {
+					title: 'Home',
+					categories: cats,
+					links: links
+				});
+			});			
 		}
 	});
 };

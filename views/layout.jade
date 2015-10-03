@@ -18,6 +18,7 @@ html
 
     script(src='/js/lib/jquery.min.js')
     script(src='/js/lib/bootstrap.min.js')
+    script(src='/js/lib/trianglify.min.js')
     script(src='/js/main.js')
 
     
@@ -29,3 +30,19 @@ html
 
       ga('create', 'UA-XXXXX-X', 'auto');
       ga('send', 'pageview');
+    script.
+      var categoryPattern = Trianglify({
+        width: 70,
+        height: 70,
+        cell_size: 20
+      });
+      $('.catTitle').prepend(categoryPattern.canvas);
+      var slogan = Trianglify({
+        width: 500,
+        height: 300,
+        cell_size: 30
+      });
+      slogan.canvas.width = slogan.canvas.offsetWidth;
+      slogan.canvas.height = slogan.canvas.offsetHeight;
+
+      //$('.slogan').prepend(slogan.canvas);

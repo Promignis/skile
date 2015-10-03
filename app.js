@@ -30,6 +30,7 @@ var userController = require('./controllers/user');
 var contactController = require('./controllers/contact');
 var addLinkController = require('./controllers/addLink');
 var addCategoryController = require('./controllers/addCategory');
+var categoryController = require('./controllers/category');
 
 /**
  * API keys and Passport configuration.
@@ -128,6 +129,8 @@ app.get('/add-link', passportConf.isAuthenticated, addLinkController.getAddLink)
 app.post('/add-link', passportConf.isAuthenticated, addLinkController.postLink);
 app.get('/add-category', passportConf.isAuthenticated, addCategoryController.getAddCategory);
 app.post('/add-category', passportConf.isAuthenticated, addCategoryController.postCategory);
+
+app.get('/category/:name', categoryController.getCategory);
 
 /**
  * OAuth authentication routes. (Sign in)
