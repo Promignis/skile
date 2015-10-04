@@ -12654,3 +12654,7 @@ footer p, footer ul {
 .tt-suggestion p {
   margin: 0;
 }
+
+.twitter-typeahead, tt-menu {
+  width: 100%;
+}
