@@ -4,3 +4,8 @@ block content
 		=catName
 	h4
 		=catDescription
+	each link in links
+		br
+		hr
+		a(href="/"+link.url)
+			=link.title
