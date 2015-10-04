@@ -7,6 +7,9 @@ exports.getAddCategory = function(req, res, next){
 
 exports.postCategory = function(req, res, next){	
 	var newCategory = new Category(req.body);
+	if(!req.body.parentCatTitle){
+		req.body.parentCatTitle = 'None';
+	}
 	Category.findOne({'title': new RegExp('^'+ req.body.parentCatTitle + '$', "i")}, function(err, parentCat){
 		if(err) return console.err(err);
 		if(parentCat){
