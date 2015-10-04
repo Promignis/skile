@@ -18,12 +18,16 @@ exports.postLink = function(req, res, next){
 			newLink._category = cat.title;			
 			newLink.save(function(err, result){
 				if(err) return console.err(err);
+				req.flash('success', { msg: 'Link has been successfully added to '+cat.title+' !' });
 				res.render('addLink', {
 					'title' : 'AddLink'
 				});
 			});
 		}else{
-			res.send("category not found");
+			req.flash('errors', { msg: 'Category not found!' });
+			res.render('addLink', {
+					'title' : 'AddLink'
+			});
 		}		
 	});	
 };

@@ -5,6 +5,8 @@ var mongoose = require('mongoose'),
 var categorySchema = new Schema({
   title: { type: String, unique: true},
   description: String,
+  _parentId: ObjectId,
+  _parentCatTitle: String,
   addedOn: Date
 });
 
