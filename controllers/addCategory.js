@@ -12,6 +12,7 @@ exports.postCategory = function(req, res, next){
 		if(parentCat){
 			newCategory._parentId = parentCat._id;
 			newCategory._parentCatTitle = parentCat.title;
+			newCategory.addedOn = new Date();
 			newCategory.save(function(err, result){
 				if(err) return console.err(err);
 				req.flash('success', { msg: 'Category has been successfully added!' });

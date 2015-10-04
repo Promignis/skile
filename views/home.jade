@@ -9,13 +9,14 @@ block content
     each category in categories
       div.col-md-4
         a(href="/category/"+category.title) 
-          button.btn.btn-primary           
+          button.btn.btn-primary
             =category.title
   div.row.links
     h3 Latest Links
     each link in links
       div.col-md-4
         a(href="/"+link._category+"/"+link._id) 
-          button.btn.btn-primary           
+          button.btn.btn-primary
             =link.title
-      
+  div.row.paths
+    h3 Latest Paths

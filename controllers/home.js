@@ -9,7 +9,7 @@ exports.index = function(req, res) {
 		if(err){
 			return console.err(err);
 		}else{
-			Link.find({}).sort({'addedOn':-1}).limit(3).exec(function(err, links){
+			Link.find({}).sort({'addedOn': -1}).limit(3).exec(function(err, links){
 				if(err)return console.err(err);				
 				res.render('home', {
 					title: 'Home',
