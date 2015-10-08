@@ -19,7 +19,7 @@ exports.getCategory = function(req, res, next){
 				}else{
 					req.flash('errors', { msg: 'No links found!' });
 					res.redirect('/');
-				}				
+				}
 			});			
 		}		
 	});	
