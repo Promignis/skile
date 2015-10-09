@@ -31,6 +31,7 @@ var contactController = require('./controllers/contact');
 var addLinkController = require('./controllers/addLink');
 var addCategoryController = require('./controllers/addCategory');
 var categoryController = require('./controllers/category');
+var linkController = require('./controllers/link');
 var apiController = require('./controllers/apiController');
 
 /**
@@ -132,6 +133,8 @@ app.get('/add-category', passportConf.isAuthenticated, addCategoryController.get
 app.post('/add-category', passportConf.isAuthenticated, addCategoryController.postCategory);
 
 app.get('/category/:name', categoryController.getCategory);
+app.get('/categories', categoryController.getCategories);
+app.get('/links', linkController.getLinks);
 
 app.get('/api/category-search', apiController.categorySearch);
 

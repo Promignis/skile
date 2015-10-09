@@ -1,7 +1,7 @@
 var Category = require('../models/Category.js');
 var Link = require('../models/Link');
 
-exports.getCategory = function(req, res, next){
+exports.getCategory = function(req, res){
 	var category = req.params.name;
 	Category.findOne({'title':{$regex: new RegExp('^'+ category + '$', "i")}}, function(err, cat){		
 		if(!cat){
@@ -23,4 +23,8 @@ exports.getCategory = function(req, res, next){
 			});			
 		}		
 	});	
+}
+
+exports.getCategories = function(req, res){
+	res.render('categories');
 }

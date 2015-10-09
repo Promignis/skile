@@ -11,13 +11,15 @@
       ul.nav.navbar-nav
         li(class=title=='Home'?'active':undefined)
           a(href='/') Home
+        li(class=title=='Categories'?'active':undefined)
+          a(href='/categories') Categories
+        li(class=title=='Links'?'active':undefined)
+          a(href='/links') Links
         if user
           li(class=title=='AddLink'?'active':undefined)
             a(href='/add-link') Add Link
           li(class=title=='AddCategory'?'active':undefined)
-            a(href='/add-category') Add Category
-        li(class=title=='Contact'?'active':undefined)
-          a(href='/contact') Contact
+            a(href='/add-category') Add Category        
       ul.nav.navbar-nav.navbar-right
         if !user
           li(class=title=='Login'?'active':undefined)
