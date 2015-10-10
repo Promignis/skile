@@ -11,8 +11,10 @@ block content
 			if links
 				a(href="/category/c/"+cat._id, class="btn btn-danger col-md-6") Child Categories
 				button.btn.btn-danger.disabled.col-md-4.col-md-offset-2 links
-			if childCats
+			else if childCats
 				button.btn.btn-danger.disabled.col-md-6 Child Categories
+				a(href="/category/"+cat._id, class="btn btn-danger col-md-4 col-md-offset-2") Links
+			else
 				a(href="/category/"+cat._id, class="btn btn-danger col-md-4 col-md-offset-2") Links
 	if links
 		each link in links

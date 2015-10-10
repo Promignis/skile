@@ -57,7 +57,9 @@ exports.getCatChild = function(req, res){
 					});
 				}else{							
 					req.flash('errors', { msg: 'No child categories found!' });
-					res.render('categories');
+					res.render('category',{
+						cat:cat
+					});
 				}
 			});
 		}		
