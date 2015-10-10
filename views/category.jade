@@ -1,13 +1,30 @@
 extends layout
 block content
-	h1.catTitle
-		=catName
-	h4
-		=catDescription
-	each link in links
+	.row
+		.col-md-8
+			h3.catTitle
+				=cat.title
+			p
+				=cat.description
 		br
-		hr
-		a(href=link.url, target="_blank")
-			=link.title
-		p
-			=link.description
+		blockquote.col-md-4.form-group
+			if links
+				a(href="/category/c/"+cat._id, class="btn btn-danger col-md-6") Child Categories
+				button.btn.btn-danger.disabled.col-md-4.col-md-offset-2 links
+			if childCats
+				button.btn.btn-danger.disabled.col-md-6 Child Categories
+				a(href="/category/"+cat._id, class="btn btn-danger col-md-4 col-md-offset-2") Links
+	if links
+		each link in links
+			.row.list-group-item
+				a(href=link.url, target="_blank")
+					=link.title
+				p
+					=link.description
+	if childCats
+		each childCat in childCats
+			.row.list-group-item
+				a(href="/category/"+childCat._id)
+					=childCat.title
+				p
+					=childCat.description

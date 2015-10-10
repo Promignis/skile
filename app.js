@@ -133,6 +133,7 @@ app.get('/add-category', passportConf.isAuthenticated, addCategoryController.get
 app.post('/add-category', passportConf.isAuthenticated, addCategoryController.postCategory);
 
 app.get('/category/:id', categoryController.getCategory);
+app.get('/category/c/:id', categoryController.getCatChild);
 app.get('/categories', categoryController.getCategories);
 app.get('/links', linkController.getLinks);
 
