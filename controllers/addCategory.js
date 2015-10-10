@@ -5,7 +5,7 @@ exports.getAddCategory = function(req, res, next){
 	});
 };
 
-exports.postCategory = function(req, res, next){	
+exports.postCategory = function(req, res, next){
 	var newCategory = new Category(req.body);
 	if(!req.body.parentCatTitle){
 		req.body.parentCatTitle = 'None';
@@ -22,7 +22,7 @@ exports.postCategory = function(req, res, next){
 				res.render('addCategory', {
 					'title' : 'AddCategory'
 				});
-			});				
+			});
 		}else{
 			req.flash('errors', { msg: 'Parent Category '+req.body.parentCatTitle+' not found!' });
 			res.render('addLink', {

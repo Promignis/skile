@@ -6,17 +6,19 @@ block content
       h3 Learn how to learn, this is where learning begins!
   div.row.categories
     h3 Latest Categories
-    each category in categories
-      div.col-md-4
-        a(href="/category/"+category.title) 
-          button.btn.btn-primary
-            =category.title
+    if categories
+      each category in categories
+        div.col-md-4
+          a(href="/category/"+category._id) 
+            button.btn.btn-primary
+              =category.title
   div.row.links
     h3 Latest Links
-    each link in links
-      div.col-md-4
-        a(href=link.url, target="_blank") 
-          button.btn.btn-primary
-            =link.title
+    if links
+      each link in links
+        div.col-md-4
+          a(href=link.url, target="_blank") 
+            button.btn.btn-primary
+              =link.title
   div.row.paths
     h3 Latest Paths

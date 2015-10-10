@@ -1,2 +1,8 @@
 extends layout
-block content
+block content	
+	if categories
+		each category in categories
+			h5
+				a(href="/category/"+category._id)
+					=category.title
+			hr

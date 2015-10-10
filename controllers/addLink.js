@@ -7,15 +7,15 @@ exports.getAddLink = function(req, res, next){
 };
 
 exports.postLink = function(req, res, next){
-	Category.findOne({'title': {$regex: new RegExp('^'+ req.body.category + '$', "i")}}, function(err, cat){		
+	Category.findOne({'title': {$regex: new RegExp('^'+ req.body.category + '$', "i")}}, function(err, cat){
 		if(err) return console.err(err);
 		if(cat){
 			var newLink = new Link(req.body);
-			newLink.addedOn = new Date();			
-			newLink.tags = req.body.tags.split(",");
+			newLink.addedOn = new Date();
+			newLink.tags = req.body.tags.replace(/\s/g, "").split(",");
 			newLink._creator = req.user._id;
 			newLink._categoryId = cat._id;
-			newLink._category = cat.title;			
+			newLink._category = cat.title;
 			newLink.save(function(err, result){
 				if(err) return console.err(err);
 				req.flash('success', { msg: 'Link has been successfully added to '+cat.title+' !' });
@@ -28,6 +28,6 @@ exports.postLink = function(req, res, next){
 			res.render('addLink', {
 					'title' : 'AddLink'
 			});
-		}		
+		}
 	});	
 };

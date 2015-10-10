@@ -19,9 +19,10 @@
  * IMPORTANT  IMPORTANT  IMPORTANT  IMPORTANT  IMPORTANT  IMPORTANT  IMPORTANT
  */
 
+require('dotenv').load();
 module.exports = {
 
-  db: 'mongodb://hack_start:hack_start@dogen.mongohq.com:10084/hacker-start' || process.env.MONGODB || process.env.MONGOLAB_URI || 'mongodb://localhost:27017/test',
+  db: process.env.MONGODB || process.env.MONGOLAB_URI ,
 
   sessionSecret: process.env.SESSION_SECRET || 'Your Session Secret goes here',
 
