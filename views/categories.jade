@@ -1,7 +1,10 @@
 extends layout
 block content
 	.row.list-group-item
-		h3 Filters & Search Here
+		.form-group.col-md-4
+			input(placeholder="search", type="text", class="form-control")
+		button(class="btn btn-default") Submit
+	.row
 	if categories
 		each category in categories
 			.row.list-group-item

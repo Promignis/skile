@@ -1,24 +1,28 @@
 extends layout
 
 block content
+  br
   div.row
-    div.col-md-8.col-md-offset-2.slogan.well
-      h3 Learn how to learn, this is where learning begins!
-  div.row.categories
-    h3 Latest Categories
+    div.col-md-8.col-md-offset-2.slogan.bs-component
+      blockquote
+        h4 Learn how to learn, this is where learning begins!
+  div.row.categories.list-group-item
+    h5 Latest Categories
     if categories
       each category in categories
         div.col-md-4
           a(href="/category/"+category._id) 
-            button.btn.btn-primary
-              =category.title
-  div.row.links
-    h3 Latest Links
+            button.btn.btn-default.btn-sm
+              =category.title      
+      a(class="pull-right", href="/categories") More
+  div.row.links.list-group-item
+    h5 Latest Links
     if links
       each link in links
         div.col-md-4
           a(href=link.url, target="_blank") 
-            button.btn.btn-primary
+            button.btn.btn-danger.btn-sm
               =link.title
-  div.row.paths
-    h3 Latest Paths
+      a(class="pull-right", href="/link") More
+  div.row.paths.list-group-item
+    h5 Latest Paths
