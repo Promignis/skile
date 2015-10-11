@@ -32,6 +32,7 @@ var addLinkController = require('./controllers/addLink');
 var addCategoryController = require('./controllers/addCategory');
 var categoryController = require('./controllers/category');
 var linkController = require('./controllers/link');
+var addPathController = require('./controllers/addPath');
 var apiController = require('./controllers/apiController');
 
 /**
@@ -60,6 +61,7 @@ mongoose.connection.on('error', function() {
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+app.set('view cache', true);
 app.use(compress());
 app.use(sass({
   src: path.join(__dirname, 'public'),
@@ -131,7 +133,7 @@ app.get('/add-link', passportConf.isAuthenticated, addLinkController.getAddLink)
 app.post('/add-link', passportConf.isAuthenticated, addLinkController.postLink);
 app.get('/add-category', passportConf.isAuthenticated, addCategoryController.getAddCategory);
 app.post('/add-category', passportConf.isAuthenticated, addCategoryController.postCategory);
-
+app.get('/add-path', passportConf.isAuthenticated, addPathController.getAddPath);
 app.get('/category/:id', categoryController.getCategory);
 app.get('/category/c/:id', categoryController.getCatChild);
 app.get('/categories', categoryController.getCategories);
