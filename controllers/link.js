@@ -17,3 +17,7 @@ exports.getLinks = function(req, res){
 		}
 	});
 }
+
+exports.searchLinks = function(req, res){
+	var query = req.body.linkTitle;
+}

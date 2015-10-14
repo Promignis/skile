@@ -132,13 +132,18 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
 
 app.get('/add-link', passportConf.isAuthenticated, addLinkController.getAddLink);
 app.post('/add-link', passportConf.isAuthenticated, addLinkController.postLink);
+
 app.get('/add-category', passportConf.isAuthenticated, addCategoryController.getAddCategory);
 app.post('/add-category', passportConf.isAuthenticated, addCategoryController.postCategory);
+
 app.get('/add-path', passportConf.isAuthenticated, addPathController.getAddPath);
+
 app.get('/category/:id', categoryController.getCategory);
 app.get('/category/c/:id', categoryController.getCatChild);
+
 app.get('/categories', categoryController.getCategories);
 app.get('/links', linkController.getLinks);
+app.post('/links', linkController.searchLinks);
 app.get('/paths', pathController.getPaths);
 
 app.get('/api/category-search', apiController.categorySearch);
