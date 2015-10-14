@@ -1,3 +1,5 @@
 exports.getAddPath = function(req, res){
-	res.render('addPath');
+	res.render('addPath',{
+		title:'AddPath'
+	});
 }

@@ -9,7 +9,7 @@ exports.getCategory = function(req, res){
 			res.redirect('/');
 		}else{
 			Link.find({_categoryId:cat._id}).limit(10).exec(function(err, links){
-				if(err) return console.err(err);
+				if(err) return console.error(err);
 				if(links){
 					res.render('category', {
 						title:cat.title,
@@ -27,10 +27,10 @@ exports.getCategory = function(req, res){
 
 exports.getCategories = function(req, res){
 	Category.find({_parentCatTitle:'None'}).exec(function(err, cats){
-		if(err) return console.err(err);	
+		if(err) return console.error(err);	
 		if(cats.length){
 			res.render('categories',{
-				title:'categories',
+				title:'Categories',
 				categories:cats
 			});
 		}else{
@@ -43,13 +43,13 @@ exports.getCategories = function(req, res){
 exports.getCatChild = function(req, res){
 	var categoryId = req.params.id;
 	Category.findOne({_id : categoryId}, function(err, cat){
-		if(err) return console.err(err);
+		if(err) return console.error(err);
 		if(!cat){
 			req.flash('errors', { msg: 'Category not found!' });
 			res.redirect('/');
 		}else{
 			Category.find({_parentId : categoryId}, function(err, childCats){
-				if(err) return console.err(err);
+				if(err) return console.error(err);
 				if(childCats.length){						
 					res.render('category',{
 						childCats:childCats,

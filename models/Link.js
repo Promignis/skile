@@ -13,6 +13,6 @@ var linkSchema = new Schema({
   addedOn: { type: Date, default: Date.Now }
 });
 
-linkSchema.index({ title : 1});
+linkSchema.index({ title : 3, description : 2, tags:2});
 
 module.exports = mongoose.model('Link', linkSchema);

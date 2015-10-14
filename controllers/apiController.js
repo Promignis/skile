@@ -11,8 +11,7 @@ exports.categorySearch = function (req, res, next) {
 exports.linkSearch = function(req, res, next){
 	var title = req.query.q;
 	Link.find({$text:{$search:title}}).limit(10).exec(function(err, links){	
-		if(err) console.error(err);
-		console.log(links);
+		if(err) console.error(err);		
 		res.send(links);
 	});
 }

@@ -32,6 +32,7 @@ var addLinkController = require('./controllers/addLink');
 var addCategoryController = require('./controllers/addCategory');
 var categoryController = require('./controllers/category');
 var linkController = require('./controllers/link');
+var pathController = require('./controllers/path');
 var addPathController = require('./controllers/addPath');
 var apiController = require('./controllers/apiController');
 
@@ -138,6 +139,7 @@ app.get('/category/:id', categoryController.getCategory);
 app.get('/category/c/:id', categoryController.getCatChild);
 app.get('/categories', categoryController.getCategories);
 app.get('/links', linkController.getLinks);
+app.get('/paths', pathController.getPaths);
 
 app.get('/api/category-search', apiController.categorySearch);
 app.get('/api/link-search', apiController.linkSearch);

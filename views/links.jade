@@ -5,3 +5,14 @@ block content
 			.form-group.col-md-9
 				input(placeholder="search", type="text", class="form-control tt-input link-search", autocomplete="off", spellcheck="false", dir="auto" )
 			button(class="btn btn-default btn-danger col-md-3") Submit
+
+	.row
+	if links
+		each link in links
+			.row.list-group-item
+				a(href=link.url, target="_blank")
+					=link.title
+				p
+					=link.description
+	else
+		| 
