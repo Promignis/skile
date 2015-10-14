@@ -1,17 +1,18 @@
 var mongoose = require('mongoose'),
  	Schema = mongoose.Schema,
 	ObjectId = Schema.ObjectId;
-// { type: ObjectId, ref: 'Category', default: 12345 ,required: true},
-// { type: ObjectId, ref: 'User', required: true},
+
 var linkSchema = new Schema({
-  title: { type: String, unique: true, required: true},
+  title: { type: String, unique: true, required: true },
   url: { type: String, unique: true, lowercase: true, required: true },
   description: String,
   _creator: ObjectId,
   _categoryId: ObjectId,
   _category: String,
-  tags: [ String ],
-  addedOn: { type: Date, default: Date.Now}
+  tags: { type: [ String ], index : true },
+  addedOn: { type: Date, default: Date.Now }
 });
+
+linkSchema.index({ title : 1});
 
 module.exports = mongoose.model('Link', linkSchema);

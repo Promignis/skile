@@ -140,6 +140,7 @@ app.get('/categories', categoryController.getCategories);
 app.get('/links', linkController.getLinks);
 
 app.get('/api/category-search', apiController.categorySearch);
+app.get('/api/link-search', apiController.linkSearch);
 
 /**
  * OAuth authentication routes. (Sign in)
