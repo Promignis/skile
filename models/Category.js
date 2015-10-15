@@ -9,5 +9,6 @@ var categorySchema = new Schema({
   _parentCatTitle: String,
   addedOn: Date
 });
+categorySchema.index({ title : 2, description : 1});
 
 module.exports = mongoose.model('Category', categorySchema);

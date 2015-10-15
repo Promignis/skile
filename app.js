@@ -142,6 +142,7 @@ app.get('/category/:id', categoryController.getCategory);
 app.get('/category/c/:id', categoryController.getCatChild);
 
 app.get('/categories', categoryController.getCategories);
+app.post('/categories', categoryController.searchCategory);
 app.get('/links', linkController.getLinks);
 app.post('/links', linkController.searchLinks);
 app.get('/paths', pathController.getPaths);

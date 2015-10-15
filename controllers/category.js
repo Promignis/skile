@@ -62,6 +62,27 @@ exports.getCatChild = function(req, res){
 					});
 				}
 			});
-		}		
+		}
+	});
+}
+
+
+exports.searchCategory = function(req, res){
+	var query = req.body.catTitle;	
+	Category.find({$text:{$search:query}}).limit(10).exec(function(err, cats){
+		if(err) return console.error(err);
+		if(!cats){
+			req.flash('errors', { msg: 'Links not found!' });
+			res.render('categories',{
+				title:'Categories'
+			});
+		}else{			
+			res.render('categories',
+				{
+					title:'Categories',
+					links:links,
+					categories: cats
+				});	
+		}
 	});
 }

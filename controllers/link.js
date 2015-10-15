@@ -19,5 +19,21 @@ exports.getLinks = function(req, res){
 }
 
 exports.searchLinks = function(req, res){
-	var query = req.body.linkTitle;
+	var query = req.body.linkTitle;	
+	Link.find({$text:{$search:query}}).limit(10).exec(function(err, links){
+		if(err) return console.error(err);
+		if(!links){
+			req.flash('errors', { msg: 'Links not found!' });
+			res.render('links',{
+				title:'Links'
+			});
+		}else{
+			console.log(links);
+			res.render('links',
+				{
+					title:'Links',
+					links:links
+				});	
+		}
+	});
 }
