@@ -35,6 +35,7 @@ var linkController = require('./controllers/link');
 var pathController = require('./controllers/path');
 var addPathController = require('./controllers/addPath');
 var apiController = require('./controllers/apiController');
+var typeController = require('./controllers/type');
 
 /**
  * API keys and Passport configuration.
@@ -62,7 +63,7 @@ mongoose.connection.on('error', function() {
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.set('view cache', true);
+app.set('view cache', false);
 app.use(compress());
 app.use(sass({
   src: path.join(__dirname, 'public'),
@@ -149,6 +150,9 @@ app.get('/paths', pathController.getPaths);
 
 app.get('/api/category-search', apiController.categorySearch);
 app.get('/api/link-search', apiController.linkSearch);
+app.get('/api/type-search', passportConf.isAuthenticated, apiController.typeSearch);
+
+app.get('/add-type', passportConf.isAuthenticated, typeController.addType);
 
 /**
  * OAuth authentication routes. (Sign in)

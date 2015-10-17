@@ -3,7 +3,7 @@ var Link = require('../models/Link');
 
 exports.getCategory = function(req, res){
 	var categoryId = req.params.id;
-	Category.findOne({_id : categoryId}, function(err, cat){		
+	Category.findOne({_id : categoryId}, function(err, cat){
 		if(!cat){
 			req.flash('errors', { msg: 'Category not found!' });
 			res.redirect('/');
@@ -14,7 +14,7 @@ exports.getCategory = function(req, res){
 					res.render('category', {
 						title:cat.title,
 						cat:cat,
-						links: links,						
+						links: links,
 					});
 				}else{
 					req.flash('errors', { msg: 'No links found!' });
@@ -27,7 +27,7 @@ exports.getCategory = function(req, res){
 
 exports.getCategories = function(req, res){
 	Category.find({_parentCatTitle:'None'}).exec(function(err, cats){
-		if(err) return console.error(err);	
+		if(err) return console.error(err);
 		if(cats.length){
 			res.render('categories',{
 				title:'Categories',
@@ -50,12 +50,12 @@ exports.getCatChild = function(req, res){
 		}else{
 			Category.find({_parentId : categoryId}, function(err, childCats){
 				if(err) return console.error(err);
-				if(childCats.length){						
+				if(childCats.length){
 					res.render('category',{
 						childCats:childCats,
 						cat:cat
 					});
-				}else{							
+				}else{
 					req.flash('errors', { msg: 'No child categories found!' });
 					res.render('category',{
 						cat:cat
@@ -66,21 +66,20 @@ exports.getCatChild = function(req, res){
 	});
 }
 
-
 exports.searchCategory = function(req, res){
 	var query = req.body.catTitle;	
 	Category.find({$text:{$search:query}}).limit(10).exec(function(err, cats){
 		if(err) return console.error(err);
 		if(!cats){
-			req.flash('errors', { msg: 'Links not found!' });
+			req.flash('errors', { msg: 'Category not found!' });
 			res.render('categories',{
 				title:'Categories'
 			});
-		}else{			
+		}else{
 			res.render('categories',
 				{
 					title:'Categories',
-					links:links,
+					links: cats,
 					categories: cats
 				});	
 		}

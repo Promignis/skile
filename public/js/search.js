@@ -8,7 +8,7 @@ $(document).ready(function(){
 		}
 	});
 	$('.link-search').typeahead(null,{
-		name: 'link-search',		
+		name: 'link-search',
 		display: 'title',
 		source: links
 	});

@@ -18,9 +18,8 @@
         li(class=title=='Paths'?'active':undefined)
           a(href='/paths') Paths
         if user
-          li.dropdown(class=title=='Add'?'active':undefined)
-            a.dropdown-toggle(href='#', data-toggle='dropdown')
-              &nbsp;
+          li.dropdown(class=title=='Add'?'active':undefined, title="Add")
+            a.dropdown-toggle(href='#', data-toggle='dropdown')              
               i.fa.fa-plus-circle.fa-2x
               &nbsp;
               i.caret

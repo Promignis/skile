@@ -28,7 +28,6 @@ exports.searchLinks = function(req, res){
 				title:'Links'
 			});
 		}else{
-			console.log(links);
 			res.render('links',
 				{
 					title:'Links',
