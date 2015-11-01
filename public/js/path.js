@@ -22,7 +22,7 @@ var selectedNode = null;
 
 
 function setText(s){
-
+	nodeObjects[selectedNode].text.content = s;
 }
 
 function removeNodeAndLine(node){
@@ -38,9 +38,11 @@ function removeNodeAndLine(node){
 
 function createNode(x, y, r, c){
 	var tempNode = new Path.Circle(new Point(x, y), r);
+
 	tempNode.onDoubleClick = function(event){
 		removeNodeAndLine(this);
 	}
+	tempNode.text = new PointText(new Point(x-r-10, y+r+10));
 	tempNode.fillColor = c;
 	tempNode.lines = [];
 	nodeObjects[tempNode.id] = tempNode;
@@ -67,6 +69,7 @@ function connectNode(id1, id2){
 function onMouseDrag(event){
 	if(event.item && event.item.id == selectedNode){
 		event.item.position += event.delta;
+		event.item.text.position += event.delta;
 		if(event.item.lines){
 			var lines = event.item.lines;		
 			for(var i = 0; i < lines.length; i++){
@@ -109,6 +112,7 @@ $(document).ready(function(){
 	var pathLink = $('#currentPathLink');
 	pathLink.on('input change', function(e){
 		var linkText = pathLink.val();
+		setText(linkText);
 
 	});
 });
