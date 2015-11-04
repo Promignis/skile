@@ -6,7 +6,6 @@
 
 
 
-
 var nodeObjects = {
 
 }
@@ -15,59 +14,70 @@ var lineObject = {
 
 }
 
+var globalId = 0;
+
 var rootId = createNode(100, 150, 20, "red");
 
-var selectedNode = null;
+var selectedNodeId = 1;
 
 
 
 function setText(s){
-	nodeObjects[selectedNode].text.content = s;
+	nodeObjects[selectedNodeId].text.content = s;
+	view.draw();
 }
 
 function removeNodeAndLine(node){
-	var linesToRemove = nodeObjects[node.id].lines;
+	var linesToRemove = nodeObjects[node.myId].lines;
 	for(var i = 0; i < linesToRemove.length; i++){
 		lineObject[linesToRemove[i]].remove();
 	}
-	if(node.parent){
-		//select(node.parent);
+
+	if(node.myParent){
+		select(node.myParent);
 	}
+	node.text.remove();
 	node.remove();
+}
+
+function getId(){
+	return globalId+=1;
 }
 
 function createNode(x, y, r, c){
 	var tempNode = new Path.Circle(new Point(x, y), r);
-
+	tempNode.myId = getId();
 	tempNode.onDoubleClick = function(event){
 		removeNodeAndLine(this);
 	}
 	tempNode.text = new PointText(new Point(x-r-10, y+r+10));
 	tempNode.fillColor = c;
 	tempNode.lines = [];
-	nodeObjects[tempNode.id] = tempNode;
-	return tempNode.id;
+	nodeObjects[globalId] = tempNode;
+	return globalId;
 }
 
 function createLine(p1, p2){
 	var tempLine = new Path.Line(p1.position, p2.position);
 	tempLine.strokeColor = "red";
-	lineObject[tempLine.id] = tempLine;
-	lineObject[tempLine.id].nodes = [p1, p2];
-	return tempLine.id;
+	tempLine.myId = getId();
+	lineObject[tempLine.myId] = tempLine;
+	lineObject[tempLine.myId].nodes = [p1, p2];
+	return tempLine.myId;
 }
 
 function connectNode(id1, id2){
+	console.log(id1, id2);
 	var o = nodeObjects[id2];
-	o.parent = nodeObjects[id1];
-	var line = createLine(nodeObjects[id1], o);
+	o.myParent = nodeObjects[id1];
+	var line = createLine(o.myParent, o);
 	o.lines.push(line);
 	nodeObjects[id1].lines.push(line);
 	nodeObjects[id2].lines.push(line);
 }
 
 function onMouseDrag(event){
-	if(event.item && event.item.id == selectedNode){
+	if(event.item && event.item.myId == selectedNodeId){
 		event.item.position += event.delta;
 		event.item.text.position += event.delta;
 		if(event.item.lines){
@@ -81,31 +91,48 @@ function onMouseDrag(event){
 }
 
 function select(node){
-	if(selectedNode!=node.id){
+	if(selectedNodeId != node.myId){
 		deselect();
 	}
 	node.fillColor = "blue";
-	selectedNode = node.id;
+	selectedNodeId = node.myId;
 }
 
 function deselect(){
-	// there was a bug here, selectedNode has a value that is not in nodeObjects
-	if(nodeObjects[selectedNode]){
-		nodeObjects[selectedNode].fillColor = "red";
-		selectedNode = null;
+	// there was a bug here, selectedNodeId has a value that is not in nodeObjects
+	if(nodeObjects[selectedNodeId]){
+		nodeObjects[selectedNodeId].fillColor = "red";
+		selectedNodeId = null;
 	}
 }
 
 function onMouseDown(event){
+	console.log(event.event.button);
 	if(!event.item){
-		if(selectedNode){
-			connectNode(selectedNode, createNode(event.point.x, event.point.y, 20, "red"));
+		if(selectedNodeId){
+			connectNode(selectedNodeId, createNode(event.point.x, event.point.y, 20, "red"));
 		}else{
 			connectNode(rootId, createNode(event.point.x, event.point.y, 20, "red"));
 		}
 	}else if(event.item){
 		select(event.item);
 	}
+}
+
+function isConnected(id1, id2){
+	var o1 = nodeObjects[id1];
+	var o2 = nodeObjects[id2];
+	if(o1.myParent){
+		if(o1.myParent.myId === id2){
+			return true;
+		}
+	}
+	if(o2.myParent){
+		if(o2.myParent.myId === id1){
+			return true;
+		}
+	}
+	return false;
 }
 
 $(document).ready(function(){

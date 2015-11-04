@@ -7,7 +7,7 @@ var categorySchema = new Schema({
   description: String,
   _parentId: ObjectId,
   _parentCatTitle: String,
-  addedOn: Date
+  addedOn: { type: Date, default: Date.Now }
 });
 categorySchema.index({ title : 2, description : 1});
 

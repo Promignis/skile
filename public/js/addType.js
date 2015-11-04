@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	$('#type').on('change', function(){
+	$('#type').on('click change', function(){
 		var selectedType = $('#type').val();
 		if(selectedType === 'new'){
 			$('.newType').css({'display': 'inline'});
