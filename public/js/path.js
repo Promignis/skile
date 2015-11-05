@@ -5,6 +5,7 @@
 // each node has a text
 
 // format for full graph
+// width_height_
 
 
 
@@ -18,13 +19,49 @@ var lineObject = {
 
 var globalId = 0;
 
-var rootId = setRoot(createNode(100, 150, 20, "red"));
+var GS = {
+	"NODE_RADIUS" : 30,
+	"ROOT_NODE_X" : 100,
+	"ROOT_NODE_Y" : 150
+}
+
+var rootId = setRoot(createNode(GS.ROOT_NODE_X, GS.ROOT_NODE_Y, GS.NODE_RADIUS, "red"));
 
 var selectedNodeId = 1;
 
 
-function getPercenDimen(x, y){
-	console.log(view.viewSize);
+function getRatioDimension(x, y){
+	console.log(x, y);
+	var viewW = view.viewSize._width;
+	var viewH = view.viewSize._height;
+	return {"x": (x/viewW), "y": (y/viewH)};
+}
+
+function encodeToJson(nodes){
+	var encoded = {};
+	var keys = Object.keys(nodes);
+	var children;
+	for(var i = 0; i < keys.length; i++){
+		children = nodes[keys[i]].myChildren;
+		encoded[keys[i]] = [];
+		
+		for(var j = 0; j < children.length; j++){
+			encoded[keys[i]].push(getNodeInfo(children[j]));
+		}
+	}
+	return JSON.stringify(encoded);
+}
+
+function getNodeInfo(node){
+	var info = {};
+	info.parent = node.myParent.myId;
+	info.children = [];
+	for(var i = 0; i < node.myChildren.length; i++){
+		info.children.push(node.myChildren[i].myId);
+	}
+	info.id = node.myId;
+	info.posRatio = getRatioDimension(node.position.x, node.position.y);
+	return info;
 }
 
 function setRoot(id){
@@ -46,15 +83,15 @@ function removeNodeAndLine(node){
 	for(var i = 0; i < linesToRemove.length; i++){
 		lineObject[linesToRemove[i]].remove();
 	}
-
 	if(node.myParent){
-		var i = node.myParent.myChild.indexOf(node)
-		if(i!=-1){
-			node.myParent.myChild.splice(i, 1);
+		var i = node.myParent.myChildren.indexOf(node)
+		if(i != -1){
+			node.myParent.myChildren.splice(i, 1);
 		}
 		select(node.myParent);
 	}
 	node.text.remove();
+	delete nodeObjects[node.myId];
 	node.remove();
 }
 
@@ -66,13 +103,13 @@ function createNode(x, y, r, c){
 	var tempNode = new Path.Circle(new Point(x, y), r);
 	tempNode.myId = getId();
 	tempNode.onDoubleClick = function(event){
-		if(!this.myChild.length && !this.isRoot)
+		if(!this.myChildren.length && !this.isRoot)
 			removeNodeAndLine(this);
 	}
 	tempNode.text = new PointText(new Point(x-r-30, y+r+20));
 	tempNode.fillColor = c;
 	tempNode.lines = [];
-	tempNode.myChild = [];
+	tempNode.myChildren = [];
 	nodeObjects[globalId] = tempNode;
 	tempNode.isRoot = false;
 	return globalId;
@@ -90,7 +127,7 @@ function createLine(p1, p2){
 function connectNode(id1, id2){
 	var oParent = nodeObjects[id1];
 	var oChild = nodeObjects[id2];
-	oParent.myChild.push(oChild);	
+	oParent.myChildren.push(oChild);	
 	oChild.myParent = oParent;
 	var line = createLine(oParent, oChild);
 	oChild.lines.push(line);
@@ -132,9 +169,9 @@ function onMouseDown(event){
 	// console.log(event.event.button); maybe can use to distinguish right and left click
 	if(!event.item){
 		if(selectedNodeId){
-			connectNode(selectedNodeId, createNode(event.point.x, event.point.y, 20, "red"));
+			connectNode(selectedNodeId, createNode(event.point.x, event.point.y, GS.NODE_RADIUS, "red"));
 		}else{
-			connectNode(rootId, createNode(event.point.x, event.point.y, 20, "red"));
+			connectNode(rootId, createNode(event.point.x, event.point.y, GS.NODE_RADIUS, "red"));
 		}
 	}else if(event.item){
 		select(event.item);
@@ -165,13 +202,13 @@ $(document).ready(function(){
 
 	});
 
-		var links = new Bloodhound({
-		datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-		queryTokenizer: Bloodhound.tokenizers.whitespace,
-		remote:{
-			url:'/api/link-search/?q=%QUERY',
-			wildcard: '%QUERY'
-		}
+	var links = new Bloodhound({
+	datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+	queryTokenizer: Bloodhound.tokenizers.whitespace,
+	remote:{
+		url:'/api/link-search/?q=%QUERY',
+		wildcard: '%QUERY'
+	}
 	});
 	$('.path-search').typeahead(null,{
 		name: 'link-search',
@@ -180,6 +217,6 @@ $(document).ready(function(){
 	}).on('typeahead:selected typeahead:autocompleted', function($e, datum){
 		setText(datum.title);
 		setLinkObject(datum._id);
-		getPercenDimen(12,12);
+		console.log(encodeToJson(nodeObjects));
 	});
 });
