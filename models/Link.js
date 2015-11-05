@@ -7,7 +7,7 @@ var linkSchema = new Schema({
   url: { type: String, unique: true, lowercase: true, required: true },
   description: String,
   type: String,
-  _creator: { type: ObjectId, required: true}
+  _creator: { type: ObjectId, required: true},
   _categoryId: ObjectId,
   _category: String,
   tags: { type: [ String ], index : true },

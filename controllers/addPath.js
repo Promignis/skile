@@ -10,6 +10,7 @@ exports.getAddPath = function(req, res){
 
 exports.postAddPath = function(req, res){
 	var myPath = new Path(req.body);
+	// verify if each link exists can be done in client side with typeahead
 	Category.findOne({'title': new RegExp('^'+ req.body.category + '$', "i")}, function(err, category){
 		if(err) return console.error(err);
 		if(category){
@@ -18,9 +19,9 @@ exports.postAddPath = function(req, res){
 			myPath.addedOn = new Date();
 			myPath.save(function(err, result){
 				if(err) return console.error(err);
-				req.flash('success', { msg: 'Category has been successfully added!' });
-				res.render('addCategory', {
-					'title' : 'AddCategory'
+				req.flash('success', { msg: 'Path has been successfully added!' });
+				res.render('addPath', {
+					'title' : 'AddPath'
 				});
 			});
 		}else{

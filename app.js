@@ -138,7 +138,7 @@ app.get('/add-category', passportConf.isAuthenticated, addCategoryController.get
 app.post('/add-category', passportConf.isAuthenticated, addCategoryController.postCategory);
 
 app.get('/add-path', passportConf.isAuthenticated, addPathController.getAddPath);
-app.post('/add-path', passportConf.isAuthenticated, addLinkController.postAddPath);
+app.post('/add-path', passportConf.isAuthenticated, addPathController.postAddPath);
 
 app.get('/category/:id', categoryController.getCategory);
 app.get('/category/c/:id', categoryController.getCatChild);
