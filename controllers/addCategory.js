@@ -15,6 +15,7 @@ exports.postCategory = function(req, res, next){
 		if(parentCat){
 			newCategory._parentId = parentCat._id;
 			newCategory._parentCatTitle = parentCat.title;
+			newCategory._creator = req.user._id;
 			newCategory.addedOn = new Date();
 			newCategory.save(function(err, result){
 				if(err) return console.error(err);
@@ -25,8 +26,8 @@ exports.postCategory = function(req, res, next){
 			});
 		}else{
 			req.flash('errors', { msg: 'Parent Category '+req.body.parentCatTitle+' not found!' });
-			res.render('addLink', {
-					'title' : 'AddLink'
+			res.render('addCategory', {
+					'title' : 'AddCategory'
 			});
 		}
 	});

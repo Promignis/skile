@@ -4,13 +4,15 @@ var mongoose = require('mongoose'),
 
 var pathSchema = new Schema({
   title: { type: String, unique: true, required: true},
-  url: { type: [ String ], lowercase: true, required: true },
   description: String,
-  _creator: ObjectId,
+  path:{ type: String, required: true},
+  _creator: { type: ObjectId, required: true}
   _categoryId: ObjectId,
   _category: String,
   tags: [ String ],
   addedOn: { type: Date, default: Date.Now}
 });
+
+linkSchema.index({ title : 3, path : 2,description : 2, tags:2});
 
 module.exports = mongoose.model('Path', pathSchema);

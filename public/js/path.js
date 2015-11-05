@@ -224,12 +224,22 @@ $(document).ready(function(){
 	$('.path-search').typeahead(null,{
 		name: 'link-search',
 		display: 'title',
+		templates: {
+			suggestion: function(data){
+				console.log(data);
+				return "<h4>"+data.title+"</br><small> "+data.url+"</small></h4>";
+			}
+		},
 		source: links
 	}).on('typeahead:selected typeahead:autocompleted', function($e, datum){
-		console.log(datum);
+		
 		setNodeText(datum.title);
 		setNodeLinkObject(datum._id);
 		setNodeLink(datum.url);
-		console.log(encodeToJson(nodeObjects));
+	});
+	$('.add-path-form').on('submit', function(e){
+		$('.path-data').val(encodeToJson(nodeObjects));
+		e.preventDefault();
+		return false;
 	});
 });
