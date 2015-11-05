@@ -49,6 +49,7 @@ function encodeToJson(nodes){
 			encoded[keys[i]].push(getNodeInfo(children[j]));
 		}
 	}
+	encoded.GS = GS;
 	return JSON.stringify(encoded);
 }
 
@@ -60,6 +61,7 @@ function getNodeInfo(node){
 		info.children.push(node.myChildren[i].myId);
 	}
 	info.id = node.myId;
+	info.link = {"url": node.link, "_id": node.linkObject, "title": node.text.content};
 	info.posRatio = getRatioDimension(node.position.x, node.position.y);
 	return info;
 }
@@ -69,13 +71,17 @@ function setRoot(id){
 	return id;
 }
 
-function setText(s){
+function setNodeText(s){
 	nodeObjects[selectedNodeId].text.content = s;
 	view.draw();
 }
 
-function setLinkObject(o){
+function setNodeLinkObject(o){
 	nodeObjects[selectedNodeId].linkObject = o;
+}
+
+function setNodeLink(url){
+	nodeObjects[selectedNodeId].link = url;
 }
 
 function removeNodeAndLine(node){
@@ -96,7 +102,7 @@ function removeNodeAndLine(node){
 }
 
 function getId(){
-	return globalId+=1;
+	return globalId += 1;
 }
 
 function createNode(x, y, r, c){
@@ -167,17 +173,22 @@ function deselect(){
 
 function onMouseDown(event){
 	// console.log(event.event.button); maybe can use to distinguish right and left click
-	if(!event.item){
+	if(!event.item && !event.event.button){
 		if(selectedNodeId){
 			connectNode(selectedNodeId, createNode(event.point.x, event.point.y, GS.NODE_RADIUS, "red"));
 		}else{
 			connectNode(rootId, createNode(event.point.x, event.point.y, GS.NODE_RADIUS, "red"));
 		}
-	}else if(event.item){
+	}else if(event.item && !event.event.button){
 		select(event.item);
 	}
+	// else if(event.item && event.event.button && selectedNodeId){
+	// 	connectNode(selectedNodeId, event.item.myId);
+	// }
 }
 
+
+// not using, just made it for fun before creating myChildren property
 function isConnected(id1, id2){
 	var o1 = nodeObjects[id1];
 	var o2 = nodeObjects[id2];
@@ -198,10 +209,10 @@ $(document).ready(function(){
 	var pathLink = $('#currentPathLink');
 	pathLink.on('input change', function(e){
 		var linkText = pathLink.val();
-		setText(linkText);
+		setNodeText(linkText);
 
 	});
-
+	$('body').on('contextmenu', '#myCanvas', function(e){ return false; });
 	var links = new Bloodhound({
 	datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
 	queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -215,8 +226,10 @@ $(document).ready(function(){
 		display: 'title',
 		source: links
 	}).on('typeahead:selected typeahead:autocompleted', function($e, datum){
-		setText(datum.title);
-		setLinkObject(datum._id);
+		console.log(datum);
+		setNodeText(datum.title);
+		setNodeLinkObject(datum._id);
+		setNodeLink(datum.url);
 		console.log(encodeToJson(nodeObjects));
 	});
 });
