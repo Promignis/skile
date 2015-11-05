@@ -4,6 +4,8 @@
 // each line can be part of only one link
 // each node has a text
 
+// format for full graph
+
 
 
 var nodeObjects = {
@@ -16,13 +18,18 @@ var lineObject = {
 
 var globalId = 0;
 
-var rootId = createNode(100, 150, 20, "red");
+var rootId = setRoot(createNode(100, 150, 20, "red"));
 
 var selectedNodeId = 1;
 
 
 function getPercenDimen(x, y){
 	console.log(view.viewSize);
+}
+
+function setRoot(id){
+	nodeObjects[id].isRoot = true;
+	return id;
 }
 
 function setText(s){
@@ -41,7 +48,10 @@ function removeNodeAndLine(node){
 	}
 
 	if(node.myParent){
-		node.myParent.myChild = null;
+		var i = node.myParent.myChild.indexOf(node)
+		if(i!=-1){
+			node.myParent.myChild.splice(i, 1);
+		}
 		select(node.myParent);
 	}
 	node.text.remove();
@@ -56,13 +66,15 @@ function createNode(x, y, r, c){
 	var tempNode = new Path.Circle(new Point(x, y), r);
 	tempNode.myId = getId();
 	tempNode.onDoubleClick = function(event){
-		if(!this.myChild)
+		if(!this.myChild.length && !this.isRoot)
 			removeNodeAndLine(this);
 	}
 	tempNode.text = new PointText(new Point(x-r-30, y+r+20));
 	tempNode.fillColor = c;
 	tempNode.lines = [];
+	tempNode.myChild = [];
 	nodeObjects[globalId] = tempNode;
+	tempNode.isRoot = false;
 	return globalId;
 }
 
@@ -78,7 +90,7 @@ function createLine(p1, p2){
 function connectNode(id1, id2){
 	var oParent = nodeObjects[id1];
 	var oChild = nodeObjects[id2];
-	oParent.myChild = oChild;	
+	oParent.myChild.push(oChild);	
 	oChild.myParent = oParent;
 	var line = createLine(oParent, oChild);
 	oChild.lines.push(line);
@@ -117,7 +129,7 @@ function deselect(){
 }
 
 function onMouseDown(event){
-	console.log(event.event.button);
+	// console.log(event.event.button); maybe can use to distinguish right and left click
 	if(!event.item){
 		if(selectedNodeId){
 			connectNode(selectedNodeId, createNode(event.point.x, event.point.y, 20, "red"));
@@ -168,5 +180,6 @@ $(document).ready(function(){
 	}).on('typeahead:selected typeahead:autocompleted', function($e, datum){
 		setText(datum.title);
 		setLinkObject(datum._id);
+		getPercenDimen(12,12);
 	});
 });
