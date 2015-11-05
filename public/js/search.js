@@ -11,5 +11,8 @@ $(document).ready(function(){
 		name: 'link-search',
 		display: 'title',
 		source: links
+	}).on('typeahead:selected typeahead:autocompleted', function($e, datum){
+		// nothing as of now
 	});
+
 });

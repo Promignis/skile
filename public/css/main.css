@@ -12745,7 +12745,7 @@ footer p, footer ul {
 }
 
 .alert {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .thumbnail {
@@ -12771,7 +12771,7 @@ footer p, footer ul {
 }
 
 .tt-suggestion {
-  padding: 3px 20px;
+  padding: 0px 20px;
   font-size: 18px;
   line-height: 24px;
 }
@@ -12794,19 +12794,8 @@ footer p, footer ul {
   display: none;
 }
 
-svg {
-  -moz-user-select: -moz-none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  /*
-     Introduced in IE 10.
-     See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
-   */
-  -ms-user-select: none;
-  user-select: none;
-}
-
 #myCanvas {
   width: 100%;
   border: 1px solid red;
+  margin-top: 30px;
 }

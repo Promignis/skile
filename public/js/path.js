@@ -21,10 +21,17 @@ var rootId = createNode(100, 150, 20, "red");
 var selectedNodeId = 1;
 
 
+function getPercenDimen(x, y){
+	console.log(view.viewSize);
+}
 
 function setText(s){
 	nodeObjects[selectedNodeId].text.content = s;
 	view.draw();
+}
+
+function setLinkObject(o){
+	nodeObjects[selectedNodeId].linkObject = o;
 }
 
 function removeNodeAndLine(node){
@@ -34,6 +41,7 @@ function removeNodeAndLine(node){
 	}
 
 	if(node.myParent){
+		node.myParent.myChild = null;
 		select(node.myParent);
 	}
 	node.text.remove();
@@ -48,9 +56,10 @@ function createNode(x, y, r, c){
 	var tempNode = new Path.Circle(new Point(x, y), r);
 	tempNode.myId = getId();
 	tempNode.onDoubleClick = function(event){
-		removeNodeAndLine(this);
+		if(!this.myChild)
+			removeNodeAndLine(this);
 	}
-	tempNode.text = new PointText(new Point(x-r-10, y+r+10));
+	tempNode.text = new PointText(new Point(x-r-30, y+r+20));
 	tempNode.fillColor = c;
 	tempNode.lines = [];
 	nodeObjects[globalId] = tempNode;
@@ -67,11 +76,12 @@ function createLine(p1, p2){
 }
 
 function connectNode(id1, id2){
-	console.log(id1, id2);
-	var o = nodeObjects[id2];
-	o.myParent = nodeObjects[id1];
-	var line = createLine(o.myParent, o);
-	o.lines.push(line);
+	var oParent = nodeObjects[id1];
+	var oChild = nodeObjects[id2];
+	oParent.myChild = oChild;	
+	oChild.myParent = oParent;
+	var line = createLine(oParent, oChild);
+	oChild.lines.push(line);
 	nodeObjects[id1].lines.push(line);
 	nodeObjects[id2].lines.push(line);
 }
@@ -141,5 +151,22 @@ $(document).ready(function(){
 		var linkText = pathLink.val();
 		setText(linkText);
 
+	});
+
+		var links = new Bloodhound({
+		datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+		queryTokenizer: Bloodhound.tokenizers.whitespace,
+		remote:{
+			url:'/api/link-search/?q=%QUERY',
+			wildcard: '%QUERY'
+		}
+	});
+	$('.path-search').typeahead(null,{
+		name: 'link-search',
+		display: 'title',
+		source: links
+	}).on('typeahead:selected typeahead:autocompleted', function($e, datum){
+		setText(datum.title);
+		setLinkObject(datum._id);
 	});
 });
