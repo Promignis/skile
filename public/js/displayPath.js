@@ -1,81 +1,18 @@
-// one link is 2 nodes and a line between them
-// each link is a group
-// each node can be part of many links
-// each line can be part of only one link
-// each node has a text
-
-// format for full graph
-// width_height_
-
-
-
-var nodeObjects = {
-
-}
-
-var lineObject = {
-
-}
-
+var nodeObjects = {}
+var lineObject = {}
 var globalId = 0;
-
-var GS = {
-	"NODE_RADIUS" : 30,
-	"ROOT_NODE_X" : 100,
-	"ROOT_NODE_Y" : 150
-}
-
+var GS = {};
 var selectedNodeId = 1;
 
-
-function getRatioDimension(x, y){
-	console.log(x, y);
-	var viewW = view.viewSize._width;
-	var viewH = view.viewSize._height;
-	return {"x": (x/viewW), "y": (y/viewH)};
-}
-
-
-// {"1":{"children":[2,4], "x":123, "y":325
-//	}
-// }
-function encodeToJson(nodes){
-	var encoded = {};
-	var keys = Object.keys(nodes);
-	var children;
-	for(var i = 0; i < keys.length; i++){
-		children = nodes[keys[i]].myChildren;
-		encoded[keys[i]] = [];
-		
-		for(var j = 0; j < children.length; j++){
-			encoded[keys[i]].push(getNodeInfo(children[j]));
-		}
-	}
-	encoded.GS = GS;
-	return JSON.stringify(encoded);
-}
-
-function getNodeInfo(node){
-	var info = {};
-	info.parent = node.myParent.myId;
-	info.children = [];
-	for(var i = 0; i < node.myChildren.length; i++){
-		info.children.push(node.myChildren[i].myId);
-	}
-	info.id = node.myId;
-	info.link = {"url": node.link, "_id": node.linkObject, "title": node.text.content};
-	info.posRatio = getRatioDimension(node.position.x, node.position.y);
-	return info;
-}
+paper.setup('myCanvas');
 
 function setRoot(id){
 	nodeObjects[id].isRoot = true;
 	return id;
 }
 
-function setNodeText(s){
-	nodeObjects[selectedNodeId].text.content = s;
-	view.draw();
+function setNodeText(id, s){
+	nodeObjects[id].text.content = s;
 }
 
 function setNodeLinkObject(o){
@@ -86,45 +23,39 @@ function setNodeLink(url){
 	nodeObjects[selectedNodeId].link = url;
 }
 
-function removeNodeAndLine(node){
-	var linesToRemove = nodeObjects[node.myId].lines;
-	for(var i = 0; i < linesToRemove.length; i++){
-		lineObject[linesToRemove[i]].remove();
-	}
-	if(node.myParent){
-		var i = node.myParent.myChildren.indexOf(node)
-		if(i != -1){
-			node.myParent.myChildren.splice(i, 1);
-		}
-		select(node.myParent);
-	}
-	node.text.remove();
-	delete nodeObjects[node.myId];
-	node.remove();
-}
-
 function getId(){
 	return globalId += 1;
 }
 
+function setCenter(pos){
+	GS.CENTER = pos;
+	console.log(GS);
+}
+
 function createNode(x, y, r, c){
-	var tempNode = new Path.Circle(new Point(x, y), r);
+	var tempNode = new paper.Path.Circle(new paper.Point(x, y), r);
 	tempNode.myId = getId();
 	tempNode.onDoubleClick = function(event){
-		if(!this.myChildren.length && !this.isRoot)
-			removeNodeAndLine(this);
+		if(paper.view.zoom != 1){
+			paper.view.zoom = 1;
+			paper.view.center = GS.CENTER;
+		}else{
+			paper.view.center = this.position;
+			paper.view.zoom = 4;
+		}
 	}
-	tempNode.text = new PointText(new Point(x-r-30, y+r+20));
+	tempNode.text = new paper.PointText(new paper.Point(x-r-30, y+r+20));
 	tempNode.fillColor = c;
 	tempNode.lines = [];
 	tempNode.myChildren = [];
+	tempNode.myParents = [];
 	nodeObjects[globalId] = tempNode;
 	tempNode.isRoot = false;
 	return globalId;
 }
 
 function createLine(p1, p2){
-	var tempLine = new Path.Line(p1.position, p2.position);
+	var tempLine = new paper.Path.Line(p1.position, p2.position);
 	tempLine.strokeColor = "red";
 	tempLine.myId = getId();
 	lineObject[tempLine.myId] = tempLine;
@@ -135,81 +66,52 @@ function createLine(p1, p2){
 function connectNode(id1, id2){
 	var oParent = nodeObjects[id1];
 	var oChild = nodeObjects[id2];
-	oParent.myChildren.push(oChild);	
-	oChild.myParent = oParent;
+	oParent.myChildren.push(oChild);
+	oChild.myParents.push(oParent);
 	var line = createLine(oParent, oChild);
 	oChild.lines.push(line);
 	nodeObjects[id1].lines.push(line);
 	nodeObjects[id2].lines.push(line);
 }
 
-function onMouseDrag(event){
-	if(event.item && event.item.myId == selectedNodeId){
-		event.item.position += event.delta;
-		event.item.text.position += event.delta;
-		if(event.item.lines){
-			var lines = event.item.lines;		
-			for(var i = 0; i < lines.length; i++){
-				var myLine = lineObject[lines[i]];
-				myLine.segments = [myLine.nodes[0].position, myLine.nodes[1].position];
-			}
-		}		
-	}
-}
-
-function select(node){
-	if(selectedNodeId != node.myId){
-		deselect();
-	}
-	node.fillColor = "blue";
-	selectedNodeId = node.myId;
-}
-
-function deselect(){
-	// there was a bug here, selectedNodeId has a value that is not in nodeObjects
-	if(nodeObjects[selectedNodeId]){
-		nodeObjects[selectedNodeId].fillColor = "red";
-		selectedNodeId = null;
-	}
-}
-
-function onMouseDown(event){
-	// console.log(event.event.button); maybe can use to distinguish right and left click
-	if(!event.item && !event.event.button){
-		if(selectedNodeId){
-			connectNode(selectedNodeId, createNode(event.point.x, event.point.y, GS.NODE_RADIUS, "red"));
-		}else{
-			connectNode(rootId, createNode(event.point.x, event.point.y, GS.NODE_RADIUS, "red"));
-		}
-	}else if(event.item && !event.event.button){
-		select(event.item);
-	}
-	// else if(event.item && event.event.button && selectedNodeId){
-	// 	connectNode(selectedNodeId, event.item.myId);
-	// }
-}
-
-
-// not using, just made it for fun before creating myChildren property
-function isConnected(id1, id2){
-	var o1 = nodeObjects[id1];
-	var o2 = nodeObjects[id2];
-	if(o1.myParent){
-		if(o1.myParent.myId === id2){
-			return true;
-		}
-	}
-	if(o2.myParent){
-		if(o2.myParent.myId === id1){
-			return true;
-		}
-	}
-	return false;
-}
 
 var rootId;
 
-function decodeEncoded(paths){
+function connectNodes(path){
 	var keys = Object.keys(path);
-	console.log(paths);
+	keys.forEach(function(key){
+		if(key!="GS"){
+			var node = path[key];
+			node.children.forEach(function(child){
+				connectNode(key, child);
+			});
+			setNodeText(key, path[key].link.title);
+		}
+	});
+}
+
+
+function decodeEncoded(encoded){
+	// later loop through all and do it for each canvas
+	var encodedObj = encoded[0];
+	var path = JSON.parse(encodedObj.path);
+	var keys = Object.keys(path);
+	var prevNodeId = null;
+	GS = path.GS;
+	setCenter(paper.view.center);
+	keys.forEach(function(key){
+		var nodeInfo = path[key];
+		if(nodeInfo.id===1){
+			rootId = createNode(GS.ROOT_NODE_X, GS.ROOT_NODE_Y, GS.NODE_RADIUS, "red");
+			nodeObjects[rootId].isRoot = true;
+			prevNodeId = rootId;
+		}else if(key!="GS") {
+			var x = path[key].posRatio.x * paper.view.viewSize._width;
+			var y = path[key].posRatio.y * paper.view.viewSize._height;
+			connectNode(prevNodeId, prevNodeId = createNode(x, y, GS.NODE_RADIUS, "red"));
+			paper.view.draw();
+		}
+	});
+	paper.view.draw();
+	connectNodes(path);
 }

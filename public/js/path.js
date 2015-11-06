@@ -9,22 +9,14 @@
 
 
 
-var nodeObjects = {
-
-}
-
-var lineObject = {
-
-}
-
+var nodeObjects = {};
+var lineObject = {};
 var globalId = 0;
-
 var GS = {
 	"NODE_RADIUS" : 30,
 	"ROOT_NODE_X" : 100,
 	"ROOT_NODE_Y" : 150
-}
-
+};
 var selectedNodeId = 1;
 
 
@@ -46,7 +38,6 @@ function encodeToJson(nodes){
 		encoded[key] = getNodeInfo(nodeObjects[key]);
 	});
 	encoded.GS = GS;
-	console.log(encoded);
 	return JSON.stringify(encoded);
 }
 
