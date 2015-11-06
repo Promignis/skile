@@ -13,6 +13,6 @@ var pathSchema = new Schema({
   addedOn: { type: Date, default: Date.Now}
 });
 
-pathSchema.index({ title : 3, path : 2,description : 2, tags:2});
+pathSchema.index({ title : 3, description : 2, tags:2});
 
 module.exports = mongoose.model('Path', pathSchema);

@@ -43,7 +43,7 @@ function encodeToJson(nodes){
 	var keys = Object.keys(nodes);
 	var children;
 	keys.forEach(function(key){
-		encoded[key] = getNodeInfo(node);
+		encoded[key] = getNodeInfo(nodeObjects[key]);
 	});
 	encoded.GS = GS;
 	console.log(encoded);
@@ -249,7 +249,6 @@ $(document).ready(function(){
 	});
 	$('.add-path-form').on('submit', function(e){
 		$('.path-data').val(encodeToJson(nodeObjects));
-		e.preventDefault();
-		return false;
+		
 	});
 });
