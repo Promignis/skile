@@ -101,8 +101,12 @@ footer {
   visibility: hidden;
 }
 
-#myCanvas{
+#myCanvas {
   width:100%;
   border: 1px solid red;
   margin-top: 30px;
+}
+.paths-canvas {
+  border: 1px solid red;
+  margin-top: 30px; 
 }

@@ -29,6 +29,7 @@ var selectedNodeId = 1;
 
 
 function getRatioDimension(x, y){
+	console.log(x, y);
 	var viewW = view.viewSize._width;
 	var viewH = view.viewSize._height;
 	return {"x": (x/viewW), "y": (y/viewH)};
@@ -42,18 +43,25 @@ function encodeToJson(nodes){
 	var encoded = {};
 	var keys = Object.keys(nodes);
 	var children;
-	keys.forEach(function(key){
-		encoded[key] = getNodeInfo(node);
-	});
+	for(var i = 0; i < keys.length; i++){
+		children = nodes[keys[i]].myChildren;
+		encoded[keys[i]] = [];
+		
+		for(var j = 0; j < children.length; j++){
+			encoded[keys[i]].push(getNodeInfo(children[j]));
+		}
+	}
 	encoded.GS = GS;
-	console.log(encoded);
 	return JSON.stringify(encoded);
 }
 
 function getNodeInfo(node){
 	var info = {};
-	info.parents = node.myParents.map(function(parent){return parent.myId});
-	info.children = node.myChildren.map(function(child){return child.myId});
+	info.parent = node.myParent.myId;
+	info.children = [];
+	for(var i = 0; i < node.myChildren.length; i++){
+		info.children.push(node.myChildren[i].myId);
+	}
 	info.id = node.myId;
 	info.link = {"url": node.link, "_id": node.linkObject, "title": node.text.content};
 	info.posRatio = getRatioDimension(node.position.x, node.position.y);
@@ -83,14 +91,12 @@ function removeNodeAndLine(node){
 	for(var i = 0; i < linesToRemove.length; i++){
 		lineObject[linesToRemove[i]].remove();
 	}
-	if(node.myParents.length){
-		node.myParents.forEach(function(parent){
-			var i = parent.myChildren.indexOf(node);
-			if(i != -1){
-				parent.myChildren.splice(i, 1);
-			}
-		});
-		select(node.myParents[0]);
+	if(node.myParent){
+		var i = node.myParent.myChildren.indexOf(node)
+		if(i != -1){
+			node.myParent.myChildren.splice(i, 1);
+		}
+		select(node.myParent);
 	}
 	node.text.remove();
 	delete nodeObjects[node.myId];
@@ -112,7 +118,6 @@ function createNode(x, y, r, c){
 	tempNode.fillColor = c;
 	tempNode.lines = [];
 	tempNode.myChildren = [];
-	tempNode.myParents = [];
 	nodeObjects[globalId] = tempNode;
 	tempNode.isRoot = false;
 	return globalId;
@@ -131,7 +136,7 @@ function connectNode(id1, id2){
 	var oParent = nodeObjects[id1];
 	var oChild = nodeObjects[id2];
 	oParent.myChildren.push(oChild);	
-	oChild.myParents.push(oParent);
+	oChild.myParent = oParent;
 	var line = createLine(oParent, oChild);
 	oChild.lines.push(line);
 	nodeObjects[id1].lines.push(line);
@@ -178,20 +183,14 @@ function onMouseDown(event){
 		}
 	}else if(event.item && !event.event.button){
 		select(event.item);
-	}else if(event.item && event.event.button && selectedNodeId){
-		var firstNode = nodeObjects[selectedNodeId];
-		var secondNode = event.item;
-		if(firstNode.myChildren.length > secondNode.myChildren.length){
-			connectNode(selectedNodeId, secondNode.myId);
-		}else{
-			connectNode(secondNode.myId, selectedNodeId);
-		}
 	}
+	// else if(event.item && event.event.button && selectedNodeId){
+	// 	connectNode(selectedNodeId, event.item.myId);
+	// }
 }
 
 
 // not using, just made it for fun before creating myChildren property
-// 
 function isConnected(id1, id2){
 	var o1 = nodeObjects[id1];
 	var o2 = nodeObjects[id2];
@@ -209,47 +208,8 @@ function isConnected(id1, id2){
 }
 
 var rootId;
- 
-function init(){
-	rootId = setRoot(createNode(GS.ROOT_NODE_X, GS.ROOT_NODE_Y, GS.NODE_RADIUS, "red"));
+
+function decodeEncoded(paths){
+	var keys = Object.keys(path);
+	console.log(paths);
 }
-
-init();
-
-$(document).ready(function(){
-	var pathLink = $('#currentPathLink');
-	pathLink.on('input change', function(e){
-		var linkText = pathLink.val();
-		setNodeText(linkText);
-
-	});
-	$('body').on('contextmenu', '#myCanvas', function(e){ return false; });
-	var links = new Bloodhound({
-	datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-	queryTokenizer: Bloodhound.tokenizers.whitespace,
-	remote:{
-		url:'/api/link-search/?q=%QUERY',
-		wildcard: '%QUERY'
-	}
-	});
-	$('.path-search').typeahead(null,{
-		name: 'link-search',
-		display: 'title',
-		templates: {
-			suggestion: function(data){
-				return "<h4>"+data.title+"</br><small> "+data.url+"</small></h4>";
-			}
-		},
-		source: links
-	}).on('typeahead:selected typeahead:autocompleted', function($e, datum){
-		
-		setNodeText(datum.title);
-		setNodeLinkObject(datum._id);
-		setNodeLink(datum.url);
-	});
-	$('.add-path-form').on('submit', function(e){
-		$('.path-data').val(encodeToJson(nodeObjects));
-		e.preventDefault();
-		return false;
-	});
-});

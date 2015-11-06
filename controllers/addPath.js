@@ -15,8 +15,9 @@ exports.postAddPath = function(req, res){
 		if(err) return console.error(err);
 		if(category){
 			myPath._categoryId = category._id;
-			myPath._categoryId = category.title;
+			myPath._category = category.title;
 			myPath.addedOn = new Date();
+			myPath._creator = req.user._id;
 			myPath.save(function(err, result){
 				if(err) return console.error(err);
 				req.flash('success', { msg: 'Path has been successfully added!' });
