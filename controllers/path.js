@@ -18,3 +18,18 @@ exports.getPaths = function(req, res){
 		}
 	});
 }
+
+exports.getPath = function(req, res){
+	var pathId = req.params.id;
+	Path.findOne({_id: pathId}, function(err, path){
+		if(err) return console.error(err);
+		if(path){
+			res.render('path',{
+				path: path
+			});
+		}else{
+			req.flash('errors', { msg: 'Path not found!' });
+			res.render('path');
+		}
+	});
+}

@@ -92,49 +92,68 @@ function connectNodes(path, paper, index){
 				});
 			}
 		});
-}	
+}
 
+function createRoot(canvasCount, paper){
+	return setRoot(createNode(GS[canvasCount].ROOT_NODE_X, 
+						GS[canvasCount].ROOT_NODE_Y, GS[canvasCount].NODE_RADIUS, 
+						"red", paper, canvasCount), canvasCount);
+}
+
+function drawPaths(paper, path, canvasCount){
+	initVariables(path, canvasCount);
+	var keys = Object.keys(path);
+	keys.forEach(function(key){
+		if(key != "GS"){
+			if(path[key].type==="n"){
+				if(path[key].id === 1){
+					nodeObjects[canvasCount] = {};
+					lineObjects[canvasCount] = {};
+					rootId = createRoot(canvasCount, paper);
+				}else{
+					var x = path[key].posRatio.x * paper.view.viewSize._width;
+					var y = path[key].posRatio.y * paper.view.viewSize._height;
+					createNode(x, y, GS[canvasCount].NODE_RADIUS, "red", paper, canvasCount);
+					paper.view.draw();
+				}
+				setNodeText(key, path[key].link.title, canvasCount);
+			}else if(path[key].type==="l"){			
+				connectNode(path[key].nodes[0], path[key].nodes[1], paper, canvasCount);
+			}	
+		}	
+	});
+}
+
+function isArray(objOrArr){
+	return toString.call(objOrArr) === "[object Array]";
+}
+
+function initVariables(path, canvasCount){
+	GS.push(path.GS);
+	setCenter(paper.view.center, canvasCount);
+	initGlobalId(canvasCount);
+}
 
 // make this function smaller
 function decodeEncoded(encoded){
 	var canvasCount = 0;
 	var paper;
-	if(encoded){
+	var path;
+	if(encoded && isArray(encoded)){
 		encoded.forEach(function(encodedObj){
 			setPaper(canvasCount);
 			paper = getPaper(canvasCount);
-			initGlobalId(canvasCount);
-			var path = JSON.parse(encodedObj.path);
-			var keys = Object.keys(path);
-			GS.push(path.GS);
-			setCenter(paper.view.center, canvasCount);
-
-			keys.forEach(function(key){
-				if(key != "GS"){
-					if(path[key].type==="n"){
-						if(path[key].id === 1){
-							nodeObjects[canvasCount] = {};
-							lineObjects[canvasCount] = {};
-							rootId = setRoot(createNode(GS[canvasCount].ROOT_NODE_X, 
-									GS[canvasCount].ROOT_NODE_Y, GS[canvasCount].NODE_RADIUS, 
-									"red", paper, canvasCount), canvasCount);
-						}else{
-							var x = path[key].posRatio.x * paper.view.viewSize._width;
-							var y = path[key].posRatio.y * paper.view.viewSize._height;
-							createNode(x, y, GS[canvasCount].NODE_RADIUS, "red", paper, canvasCount);
-							paper.view.draw();
-						}
-
-						setNodeText(key, path[key].link.title, canvasCount);
-					}else if(path[key].type==="l"){			
-						connectNode(path[key].nodes[0], path[key].nodes[1], paper, canvasCount);
-					}	
-				}
-				
-			});
+			path = JSON.parse(encodedObj.path);
+			drawPaths(paper, path, canvasCount);
 			paper.view.draw();
-
 			canvasCount += 1;
 		});
+	}else{
+		path = JSON.parse(encoded.path);
+		setPaper(canvasCount);
+		paper = getPaper(canvasCount);
+		drawPaths(paper, path, canvasCount);
+		paper.view.draw();
+
 	}
 }
