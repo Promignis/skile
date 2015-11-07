@@ -10,6 +10,6 @@ block content
 		each path,i in paths
 			canvas.paths-canvas(id=i, width="600", height="200")
 			br
-			a.btn.btn-danger(href="/p/"+path._id) #{path.title}
+			a.btn.btn-danger(href="/path/"+path._id) #{path.title}
 		script(src='/js/lib/paper-core.min.js', type="text/javascript")
 		script(src='/js/displayPath.js', type="text/javascript", onload="decodeEncoded(#{JSON.stringify(paths)})")
