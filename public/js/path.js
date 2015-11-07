@@ -182,6 +182,9 @@ function onMouseDown(event){
 	}else if(event.item && !event.event.button){
 		// left click on node
 		select(event.item);
+		if(event.item.text.content){
+			$('#currentPathLink').val(event.item.text.content);
+		}
 	}else if(event.item && event.event.button && selectedNodeId){
 		// right click
 		var firstNode = nodeObjects[selectedNodeId];
