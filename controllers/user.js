@@ -126,6 +126,7 @@ exports.postSignup = function(req, res, next) {
 
   var user = new User({
     email: req.body.email,
+    fullName: req.body.fullName,
     password: req.body.password
   });
 
@@ -162,7 +163,7 @@ exports.postUpdateProfile = function(req, res, next) {
   User.findById(req.user.id, function(err, user) {
     if (err) return next(err);
     user.email = req.body.email || '';
-    user.profile.name = req.body.name || '';
+    user.fullName = req.body.name || '';
     user.profile.gender = req.body.gender || '';
     user.profile.location = req.body.location || '';
     user.profile.website = req.body.website || '';

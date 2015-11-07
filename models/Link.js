@@ -8,6 +8,7 @@ var linkSchema = new Schema({
   description: String,
   type: String,
   _creator: { type: ObjectId, required: true},
+  _creatorName : { type: String, required: true},
   _categoryId: ObjectId,
   _category: String,
   tags: { type: [ String ], index : true },

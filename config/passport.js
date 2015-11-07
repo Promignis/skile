@@ -68,7 +68,7 @@ passport.use(new FacebookStrategy(secrets.facebook, function(req, accessToken, r
         User.findById(req.user.id, function(err, user) {
           user.facebook = profile.id;
           user.tokens.push({ kind: 'facebook', accessToken: accessToken });
-          user.profile.name = user.profile.name || profile.displayName;
+          user.fullName = user.profile.name || profile.displayName;
           user.profile.gender = user.profile.gender || profile._json.gender;
           user.profile.picture = user.profile.picture || 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
           user.save(function(err) {
@@ -90,7 +90,7 @@ passport.use(new FacebookStrategy(secrets.facebook, function(req, accessToken, r
           user.email = profile._json.email;
           user.facebook = profile.id;
           user.tokens.push({ kind: 'facebook', accessToken: accessToken });
-          user.profile.name = profile.displayName;
+          user.fullName = profile.displayName;
           user.profile.gender = profile._json.gender;
           user.profile.picture = 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
           user.profile.location = (profile._json.location) ? profile._json.location.name : '';
@@ -116,7 +116,7 @@ passport.use(new GitHubStrategy(secrets.github, function(req, accessToken, refre
         User.findById(req.user.id, function(err, user) {
           user.github = profile.id;
           user.tokens.push({ kind: 'github', accessToken: accessToken });
-          user.profile.name = user.profile.name || profile.displayName;
+          user.fullName = user.profile.name || profile.displayName;
           user.profile.picture = user.profile.picture || profile._json.avatar_url;
           user.profile.location = user.profile.location || profile._json.location;
           user.profile.website = user.profile.website || profile._json.blog;
@@ -139,7 +139,7 @@ passport.use(new GitHubStrategy(secrets.github, function(req, accessToken, refre
           user.email = profile._json.email;
           user.github = profile.id;
           user.tokens.push({ kind: 'github', accessToken: accessToken });
-          user.profile.name = profile.displayName;
+          user.fullName = profile.displayName;
           user.profile.picture = profile._json.avatar_url;
           user.profile.location = profile._json.location;
           user.profile.website = profile._json.blog;
@@ -164,7 +164,7 @@ passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, tok
         User.findById(req.user.id, function(err, user) {
           user.twitter = profile.id;
           user.tokens.push({ kind: 'twitter', accessToken: accessToken, tokenSecret: tokenSecret });
-          user.profile.name = user.profile.name || profile.displayName;
+          user.fullName = user.profile.name || profile.displayName;
           user.profile.location = user.profile.location || profile._json.location;
           user.profile.picture = user.profile.picture || profile._json.profile_image_url_https;
           user.save(function(err) {
@@ -185,7 +185,7 @@ passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, tok
       user.email = profile.username + "@twitter.com";
       user.twitter = profile.id;
       user.tokens.push({ kind: 'twitter', accessToken: accessToken, tokenSecret: tokenSecret });
-      user.profile.name = profile.displayName;
+      user.fullName = profile.displayName;
       user.profile.location = profile._json.location;
       user.profile.picture = profile._json.profile_image_url_https;
       user.save(function(err) {
@@ -208,7 +208,7 @@ passport.use(new GoogleStrategy(secrets.google, function(req, accessToken, refre
         User.findById(req.user.id, function(err, user) {
           user.google = profile.id;
           user.tokens.push({ kind: 'google', accessToken: accessToken });
-          user.profile.name = user.profile.name || profile.displayName;
+          user.fullName = user.profile.name || profile.displayName;
           user.profile.gender = user.profile.gender || profile._json.gender;
           user.profile.picture = user.profile.picture || profile._json.image.url;
           user.save(function(err) {
@@ -230,7 +230,7 @@ passport.use(new GoogleStrategy(secrets.google, function(req, accessToken, refre
           user.email = profile.emails[0].value;
           user.google = profile.id;
           user.tokens.push({ kind: 'google', accessToken: accessToken });
-          user.profile.name = profile.displayName;
+          user.fullName = profile.displayName;
           user.profile.gender = profile._json.gender;
           user.profile.picture = profile._json.image.url;
           user.save(function(err) {
@@ -255,7 +255,7 @@ passport.use(new LinkedInStrategy(secrets.linkedin, function(req, accessToken, r
         User.findById(req.user.id, function(err, user) {
           user.linkedin = profile.id;
           user.tokens.push({ kind: 'linkedin', accessToken: accessToken });
-          user.profile.name = user.profile.name || profile.displayName;
+          user.fullName = user.profile.name || profile.displayName;
           user.profile.location = user.profile.location || profile._json.location.name;
           user.profile.picture = user.profile.picture || profile._json.pictureUrl;
           user.profile.website = user.profile.website || profile._json.publicProfileUrl;
@@ -278,7 +278,7 @@ passport.use(new LinkedInStrategy(secrets.linkedin, function(req, accessToken, r
           user.linkedin = profile.id;
           user.tokens.push({ kind: 'linkedin', accessToken: accessToken });
           user.email = profile._json.emailAddress;
-          user.profile.name = profile.displayName;
+          user.fullName = profile.displayName;
           user.profile.location = profile._json.location.name;
           user.profile.picture = profile._json.pictureUrl;
           user.profile.website = profile._json.publicProfileUrl;
@@ -291,69 +291,6 @@ passport.use(new LinkedInStrategy(secrets.linkedin, function(req, accessToken, r
   }
 }));
 
-/**
- * Tumblr API OAuth.
- */
-passport.use('tumblr', new OAuthStrategy({
-    requestTokenURL: 'http://www.tumblr.com/oauth/request_token',
-    accessTokenURL: 'http://www.tumblr.com/oauth/access_token',
-    userAuthorizationURL: 'http://www.tumblr.com/oauth/authorize',
-    consumerKey: secrets.tumblr.consumerKey,
-    consumerSecret: secrets.tumblr.consumerSecret,
-    callbackURL: secrets.tumblr.callbackURL,
-    passReqToCallback: true
-  },
-  function(req, token, tokenSecret, profile, done) {
-    User.findById(req.user._id, function(err, user) {
-      user.tokens.push({ kind: 'tumblr', accessToken: token, tokenSecret: tokenSecret });
-      user.save(function(err) {
-        done(err, user);
-      });
-    });
-  }
-));
-
-/**
- * Foursquare API OAuth.
- */
-passport.use('foursquare', new OAuth2Strategy({
-    authorizationURL: 'https://foursquare.com/oauth2/authorize',
-    tokenURL: 'https://foursquare.com/oauth2/access_token',
-    clientID: secrets.foursquare.clientId,
-    clientSecret: secrets.foursquare.clientSecret,
-    callbackURL: secrets.foursquare.redirectUrl,
-    passReqToCallback: true
-  },
-  function(req, accessToken, refreshToken, profile, done) {
-    User.findById(req.user._id, function(err, user) {
-      user.tokens.push({ kind: 'foursquare', accessToken: accessToken });
-      user.save(function(err) {
-        done(err, user);
-      });
-    });
-  }
-));
-
-/**
- * Venmo API OAuth.
- */
-passport.use('venmo', new OAuth2Strategy({
-    authorizationURL: 'https://api.venmo.com/v1/oauth/authorize',
-    tokenURL: 'https://api.venmo.com/v1/oauth/access_token',
-    clientID: secrets.venmo.clientId,
-    clientSecret: secrets.venmo.clientSecret,
-    callbackURL: secrets.venmo.redirectUrl,
-    passReqToCallback: true
-  },
-  function(req, accessToken, refreshToken, profile, done) {
-    User.findById(req.user._id, function(err, user) {
-      user.tokens.push({ kind: 'venmo', accessToken: accessToken });
-      user.save(function(err) {
-        done(err, user);
-      });
-    });
-  }
-));
 
 /**
  * Login Required middleware.
