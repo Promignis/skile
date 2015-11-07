@@ -30,24 +30,37 @@ function getRatioDimension(x, y){
 // {"1":{"children":[2,4], "x":123, "y":325
 //	}
 // }
-function encodeToJson(nodes){
+function encodeToJson(){
 	var encoded = {};
-	var keys = Object.keys(nodes);
-	var children;
-	keys.forEach(function(key){
+	var nodeKeys = Object.keys(nodeObjects);
+	var lineKeys = Object.keys(lineObject);
+	nodeKeys.forEach(function(key){
 		encoded[key] = getNodeInfo(nodeObjects[key]);
 	});
+	lineKeys.forEach(function(key){
+		encoded[key] = getLineInfo(lineObject[key]);
+	});
+	console.log(encoded);
 	encoded.GS = GS;
 	return JSON.stringify(encoded);
 }
 
 function getNodeInfo(node){
 	var info = {};
+	info.type = "n";
 	info.parents = node.myParents.map(function(parent){return parent.myId});
 	info.children = node.myChildren.map(function(child){return child.myId});
 	info.id = node.myId;
 	info.link = {"url": node.link, "_id": node.linkObject, "title": node.text.content};
 	info.posRatio = getRatioDimension(node.position.x, node.position.y);
+	return info;
+}
+
+function getLineInfo(line){
+	var info = {};
+	info.nodes = line.nodes.map(function(node){return node.myId});
+	console.log(info.nodes);
+	info.type = "l";
 	return info;
 }
 
@@ -109,21 +122,24 @@ function createNode(x, y, r, c){
 	return globalId;
 }
 
-function createLine(p1, p2){
+function createLine(p1, p2, isRightClick){
 	var tempLine = new Path.Line(p1.position, p2.position);
 	tempLine.strokeColor = "red";
 	tempLine.myId = getId();
 	lineObject[tempLine.myId] = tempLine;
 	lineObject[tempLine.myId].nodes = [p1, p2];
+	// if(isRightClick){
+	// 	rightClickObject[tempLine.myId] = [p1.myId, p2.myId];
+	// }
 	return tempLine.myId;
 }
 
-function connectNode(id1, id2){
+function connectNode(id1, id2, isRightClick){
 	var oParent = nodeObjects[id1];
 	var oChild = nodeObjects[id2];
 	oParent.myChildren.push(oChild);	
 	oChild.myParents.push(oParent);
-	var line = createLine(oParent, oChild);
+	var line = createLine(oParent, oChild, isRightClick);
 	oChild.lines.push(line);
 	nodeObjects[id1].lines.push(line);
 	nodeObjects[id2].lines.push(line);
@@ -172,29 +188,25 @@ function onMouseDown(event){
 	}else if(event.item && event.event.button && selectedNodeId){
 		var firstNode = nodeObjects[selectedNodeId];
 		var secondNode = event.item;
-		if(firstNode.myChildren.length > secondNode.myChildren.length){
-			connectNode(selectedNodeId, secondNode.myId);
-		}else{
-			connectNode(secondNode.myId, selectedNodeId);
+		if(!isDirectlyConnected(firstNode, secondNode) && secondNode.myParents){
+			console.log(encodeToJson())
+			if(firstNode.myChildren.length > secondNode.myChildren.length){
+				connectNode(selectedNodeId, secondNode.myId, true);
+			}else{
+				connectNode(secondNode.myId, selectedNodeId, true);
+			}
 		}
 	}
 }
 
-
-// not using, just made it for fun before creating myChildren property
-// 
-function isConnected(id1, id2){
-	var o1 = nodeObjects[id1];
-	var o2 = nodeObjects[id2];
-	if(o1.myParent){
-		if(o1.myParent.myId === id2){
-			return true;
-		}
+function isDirectlyConnected(firstNode, secondNode){
+	var i = firstNode.myParents.indexOf(secondNode.myId);
+	if(i!=-1){
+		return true;
 	}
-	if(o2.myParent){
-		if(o2.myParent.myId === id1){
-			return true;
-		}
+	i = secondNode.myParents.indexOf(firstNode.myId);
+	if(i!=-1){
+		return true;
 	}
 	return false;
 }
@@ -239,7 +251,6 @@ $(document).ready(function(){
 		setNodeLink(datum.url);
 	});
 	$('.add-path-form').on('submit', function(e){
-		$('.path-data').val(encodeToJson(nodeObjects));
-		
+		$('.path-data').val(encodeToJson());
 	});
 });

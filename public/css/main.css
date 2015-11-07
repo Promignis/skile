@@ -12806,6 +12806,7 @@ footer p, footer ul {
 }
 
 .paths-canvas {
+  width: 100%;
   border: 1px solid red;
   margin-top: 30px;
 }
