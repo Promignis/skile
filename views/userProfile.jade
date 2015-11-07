@@ -1,0 +1,9 @@
+extends layout
+block content
+	.row
+		.col-md-8
+			img(src=user.profile.picture)
+			h3
+				=user.profile.name
+			p
+				=user.email

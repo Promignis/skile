@@ -26,3 +26,10 @@ block content
       a(class="pull-right", href="/links") More
   div.row.paths.list-group-item
     h5 Latest Paths
+    if paths
+      each path in paths
+        div.col-md-4
+          a(href="/path/"+path._id) 
+            button.btn.btn-default.btn-sm
+              =path.title
+      a(class="pull-right", href="/paths") More

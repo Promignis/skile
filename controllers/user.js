@@ -6,6 +6,46 @@ var passport = require('passport');
 var User = require('../models/User');
 var secrets = require('../config/secrets');
 
+/**
+ * GET /user/:id
+ * User page.
+ */
+
+exports.getUserProfile = function(req, res){ 
+  var userId = req.params.userId;
+  User.findOne({_id: userId}, function(err, user){
+    if(err) return console.error(err);
+    if(user){
+      res.render('userProfile',{
+        user: user,
+        title: "Profile"
+      });
+    }else{
+      req.flash('errors', { msg: 'User not found!' });
+      res.render('userProfile',{
+        title: "Profile"
+      });
+    }
+  });
+}
+
+exports.getMyProfile = function(req, res){
+  var userId = req.user.id;
+  User.findOne({_id: userId}, function(err, user){
+    if(err) return console.error(err);
+    if(user){
+      res.render('userProfile',{
+        user: user,
+        title: "Profile"
+      });
+    }else{
+      req.flash('errors', { msg: 'User not found!' });
+      res.render('userProfile',{
+        title: "Profile"
+      });
+    }
+  });
+}
 
 
 /**

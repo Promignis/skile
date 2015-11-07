@@ -11,6 +11,9 @@
       ul.nav.navbar-nav
         li(class=title=='Home'?'active':undefined)
           a(href='/') Home
+        if user
+            li(class=title=='Profile'?'active':undefined)
+              a(href='/profile') Profile
         li(class=title=='Categories'?'active':undefined)
           a(href='/categories') Categories
         li(class=title=='Links'?'active':undefined)

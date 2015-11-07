@@ -122,24 +122,21 @@ function createNode(x, y, r, c){
 	return globalId;
 }
 
-function createLine(p1, p2, isRightClick){
+function createLine(p1, p2){
 	var tempLine = new Path.Line(p1.position, p2.position);
 	tempLine.strokeColor = "red";
 	tempLine.myId = getId();
 	lineObject[tempLine.myId] = tempLine;
 	lineObject[tempLine.myId].nodes = [p1, p2];
-	// if(isRightClick){
-	// 	rightClickObject[tempLine.myId] = [p1.myId, p2.myId];
-	// }
 	return tempLine.myId;
 }
 
-function connectNode(id1, id2, isRightClick){
+function connectNode(id1, id2){
 	var oParent = nodeObjects[id1];
 	var oChild = nodeObjects[id2];
 	oParent.myChildren.push(oChild);	
 	oChild.myParents.push(oParent);
-	var line = createLine(oParent, oChild, isRightClick);
+	var line = createLine(oParent, oChild);
 	oChild.lines.push(line);
 	nodeObjects[id1].lines.push(line);
 	nodeObjects[id2].lines.push(line);
@@ -176,7 +173,6 @@ function deselect(){
 }
 
 function onMouseDown(event){
-	// console.log(event.event.button); maybe can use to distinguish right and left click
 	if(!event.item && !event.event.button){
 		if(selectedNodeId){
 			connectNode(selectedNodeId, createNode(event.point.x, event.point.y, GS.NODE_RADIUS, "red"));
@@ -184,8 +180,10 @@ function onMouseDown(event){
 			connectNode(rootId, createNode(event.point.x, event.point.y, GS.NODE_RADIUS, "red"));
 		}
 	}else if(event.item && !event.event.button){
+		// left click on node
 		select(event.item);
 	}else if(event.item && event.event.button && selectedNodeId){
+		// right click
 		var firstNode = nodeObjects[selectedNodeId];
 		var secondNode = event.item;
 		if(!isDirectlyConnected(firstNode, secondNode) && secondNode.myParents){
@@ -240,6 +238,7 @@ $(document).ready(function(){
 		display: 'title',
 		templates: {
 			suggestion: function(data){
+				console.log(data);
 				return "<h4>"+data.title+"</br><small> "+data.url+"</small></h4>";
 			}
 		},

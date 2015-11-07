@@ -54,7 +54,7 @@ function createNode(x, y, r, c, paper, index){
 			paper.view.center = GS[index].CENTER;
 		}else{
 			paper.view.center = this.position;
-			paper.view.zoom = 4;
+			paper.view.zoom = 3;
 		}
 	}
 	tempNode.text = new paper.PointText(new paper.Point(x-r-30, y+r+20));
