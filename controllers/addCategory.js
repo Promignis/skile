@@ -16,6 +16,7 @@ exports.postCategory = function(req, res, next){
 			newCategory._parentId = parentCat._id;
 			newCategory._parentCatTitle = parentCat.title;
 			newCategory._creator = req.user._id;
+			newCategory._creatorName = req.user.fullName;
 			newCategory.addedOn = new Date();
 			newCategory.save(function(err, result){
 				if(err) return console.error(err);

@@ -5,7 +5,6 @@ exports.getPaths = function(req, res){
 	Path.find({}).limit(5).exec(function(err, result){
 		if(err) return console.error(err);
 		if(result){
-			console.log(result);
 			res.render('paths',{
 				title:'Paths',
 				paths: result

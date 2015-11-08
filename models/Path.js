@@ -7,6 +7,7 @@ var pathSchema = new Schema({
   description: String,
   path:{ type: String, required: true},
   _creator: { type: ObjectId, required: true},
+  _creatorName : {type: String, required: true},
   _categoryId: ObjectId,
   _category: String,
   tags: [ String ],

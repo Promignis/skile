@@ -7,6 +7,7 @@ var categorySchema = new Schema({
   description: String,
   _parentId: ObjectId,
   _creator: { type: ObjectId, required: true},
+  _creatorName : { type: String, required: true},
   _parentCatTitle: String,
   addedOn: { type: Date, default: Date.Now }
 });

@@ -4,6 +4,7 @@ var papers = [];
 var globalIds = {};
 var GS = [];
 var selectedNodeId = [];
+var linkInfo = [];
 
 
 function setRoot(id, index){
@@ -100,6 +101,11 @@ function createRoot(canvasCount, paper){
 						"red", paper, canvasCount), canvasCount);
 }
 
+function addLinkInfo(key, nodeData, index){
+	linkInfo[index][key] = nodeData.link.url;
+}
+
+
 function drawPaths(paper, path, canvasCount){
 	initVariables(path, canvasCount);
 	var keys = Object.keys(path);
@@ -110,10 +116,13 @@ function drawPaths(paper, path, canvasCount){
 					nodeObjects[canvasCount] = {};
 					lineObjects[canvasCount] = {};
 					rootId = createRoot(canvasCount, paper);
+					linkInfo[canvasCount] = {};
+					addLinkInfo(key, path[key], canvasCount);
 				}else{
 					var x = path[key].posRatio.x * paper.view.viewSize._width;
 					var y = path[key].posRatio.y * paper.view.viewSize._height;
 					createNode(x, y, GS[canvasCount].NODE_RADIUS, "red", paper, canvasCount);
+					addLinkInfo(key, path[key], canvasCount);
 					paper.view.draw();
 				}
 				setNodeText(key, path[key].link.title, canvasCount);
@@ -155,5 +164,11 @@ function decodeEncoded(encoded){
 		drawPaths(paper, path, canvasCount);
 		paper.view.draw();
 
+	}
+}
+
+function onMouseDown(event){
+	if(event.item){
+		console.log(event.item.myId)	
 	}
 }

@@ -12814,3 +12814,8 @@ footer p, footer ul {
 .red-text {
   color: #e51c23;
 }
+
+.editable {
+  display: none;
+  height: 200px;
+}

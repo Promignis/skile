@@ -27,6 +27,7 @@ exports.postLink = function(req, res, next){
 			newLink.addedOn = new Date();
 			newLink.tags = req.body.tags.replace(/\s/g, "").split(",");
 			newLink._creator = req.user._id;
+			newLink._creatorName = req.user.fullName;
 			newLink._categoryId = cat._id;
 			newLink._category = cat.title;
 			newLink.type = req.body.type;
