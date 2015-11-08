@@ -8,9 +8,10 @@ block content
 				=path.description
 	.row
 		canvas.paths-canvas(id=0, width="600", height="200")
-	.row
-		h1 Discussions
-		.editable
-		button.btn.btn-danger.comment Comment
+	if user
+		.row
+			h1 Discussions
+			.editable
+			button.btn.btn-danger.comment Comment
 	script(src='/js/lib/paper-core.min.js', type="text/javascript")
 	script(src='/js/displayPath.js', type="text/javascript", onload="decodeEncoded(#{JSON.stringify(path)})")
