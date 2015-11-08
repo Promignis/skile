@@ -1,5 +1,11 @@
 $(document).ready(function(){
 	var editor;
+	
+	function sendComment(){
+		var comment = $('.editable').html();
+		// make post ajax
+	}
+
 	function init(){
 		editor = new MediumEditor('.editable');
 	}
@@ -10,6 +16,7 @@ $(document).ready(function(){
 			$(this).text("Add");
 		}else{
 			$(this).text("Comment");
+			sendComment();
 			$('.editable').css('display','none');
 			editor.destroy();
 		}

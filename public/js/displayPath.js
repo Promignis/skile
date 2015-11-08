@@ -102,9 +102,12 @@ function createRoot(canvasCount, paper){
 }
 
 function addLinkInfo(key, nodeData, index){
-	linkInfo[index][key] = nodeData.link.url;
+	linkInfo[index][key] = nodeData.link;
 }
 
+function setSelectedLink(key){
+	console.log(key);
+}
 
 function drawPaths(paper, path, canvasCount){
 	initVariables(path, canvasCount);
@@ -152,6 +155,7 @@ function decodeEncoded(encoded){
 		encoded.forEach(function(encodedObj){
 			setPaper(canvasCount);
 			paper = getPaper(canvasCount);
+			setEvents(paper, canvasCount);
 			path = JSON.parse(encodedObj.path);
 			drawPaths(paper, path, canvasCount);
 			paper.view.draw();
@@ -161,14 +165,23 @@ function decodeEncoded(encoded){
 		path = JSON.parse(encoded.path);
 		setPaper(canvasCount);
 		paper = getPaper(canvasCount);
+		setEvents(paper, canvasCount);
 		drawPaths(paper, path, canvasCount);
 		paper.view.draw();
 
 	}
 }
 
-function onMouseDown(event){
-	if(event.item){
-		console.log(event.item.myId)	
+function setEvents(paper, canvasCount){
+	var link = document.getElementById("selectedLink");
+	var tool = new paper.Tool();
+	tool.onMouseDown  = function (event){
+		if(event.item){
+			var linkObj = linkInfo[canvasCount][event.item.myId];
+			console.log(linkObj);
+			link.innerText = linkObj.title;
+			link.href = linkObj.url;
+		}
 	}
+
 }
