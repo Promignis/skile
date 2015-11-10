@@ -1,4 +1,5 @@
 var Path = require('../models/Path.js');
+var Comment = require('../models/Comment.js');
 
 exports.getPaths = function(req, res){
 
@@ -21,14 +22,19 @@ exports.getPaths = function(req, res){
 exports.getPath = function(req, res){
 	var pathId = req.params.id;
 	Path.findOne({_id: pathId}, function(err, path){
-		if(err) return console.error(err);
-		if(path){
-			res.render('path',{
-				path: path
-			});
-		}else{
-			req.flash('errors', { msg: 'Path not found!' });
-			res.render('path');
-		}
+		Comment.find({ topic: pathId}, function(err, comments){
+			if(err) return console.error(err);
+			if(path){
+				res.render('path',{
+					path: path,
+					comments: comments
+				});
+			}else{
+				req.flash('errors', { msg: 'Path not found!' });
+				res.render('path');
+			}
+		
+		});
 	});
+		
 }

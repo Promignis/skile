@@ -78,21 +78,22 @@ function connectNode(id1, id2, paper, index){
 	var oParent = nodeObjects[index][id1];
 	var oChild = nodeObjects[index][id2];
 	var line = createLine(oParent, oChild, paper, index);
+	paper.view.draw();
 }
 
 
 var rootId;
 
 function connectNodes(path, paper, index){
-		var keys = Object.keys(path);
-		keys.forEach(function(key){
-			if(key !== "GS"){
-				var node = path[key];
-				node.children.forEach(function(child){
-					connectNode(key, child, paper, index);
-				});
-			}
-		});
+	var keys = Object.keys(path);
+	keys.forEach(function(key){
+		if(key !== "GS"){
+			var node = path[key];
+			node.children.forEach(function(child){
+				connectNode(key, child, paper, index);
+			});
+		}
+	});
 }
 
 function createRoot(canvasCount, paper){

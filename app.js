@@ -34,8 +34,9 @@ var categoryController = require('./controllers/category');
 var linkController = require('./controllers/link');
 var pathController = require('./controllers/path');
 var addPathController = require('./controllers/addPath');
-var apiController = require('./controllers/apiController');
+var apiController = require('./controllers/api');
 var typeController = require('./controllers/type');
+var commentController = require('./controllers/comment');
 
 /**
  * API keys and Passport configuration.
@@ -156,8 +157,10 @@ app.get('/paths', pathController.getPaths);
 app.get('/api/category-search', apiController.categorySearch);
 app.get('/api/link-search', apiController.linkSearch);
 app.get('/api/type-search', passportConf.isAuthenticated, apiController.typeSearch);
-
+// ajax
 app.get('/add-type', passportConf.isAuthenticated, typeController.addType);
+
+app.post('/add-comment', passportConf.isAuthenticated, commentController.postComment);
 
 /**
  * OAuth authentication routes. (Sign in)

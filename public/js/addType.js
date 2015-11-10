@@ -9,11 +9,16 @@ $(document).ready(function(){
 	});
 	$('.add-type').on('click', function(e){
 		var type = $($('.type-search')[1]).val();
+		addTypeRequest(type);
+		e.preventDefault();
+		return false;
+	});
+
+	function addTypeRequest(type){
 		$.get('/add-type', {type:type}, function(data){
 			if(data === 'e'){
 				console.log('error');
 			}else{
-				console.log(data);
 				$('#newTypeOption').before($('<option>',{
 					value: data._id,
 					text: data.title
@@ -21,9 +26,7 @@ $(document).ready(function(){
 				$('#type').val(data._id).change();
 			}
 		});
-		e.preventDefault();
-		return false;
-	});
+	}
 
 
 	var types = new Bloodhound({
