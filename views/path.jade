@@ -14,12 +14,13 @@ block content
 			h1 Discussions
 			.editable
 			button.btn.btn-danger.comment Comment
+	.row.comments
 	if comments
 		each comment in comments
-			li 
-				!=comment.body
+			br
+			!=comment.body
+			hr
 	else
-		.row.comments
 		p No comments!
 	script(src='/js/lib/paper-core.min.js', type="text/javascript")
 	script(src='/js/displayPath.js', type="text/javascript", onload="decodeEncoded(#{JSON.stringify(path)})")

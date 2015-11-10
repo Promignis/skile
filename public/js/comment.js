@@ -16,7 +16,7 @@ $(document).ready(function (){
 		    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
 		  },
 		 success: function(response){
-		   	if(data === 'e'){
+		   	if(response === 'e'){
 		   		console.log('error');
 			}else{
 				addComment();
@@ -25,7 +25,7 @@ $(document).ready(function (){
 		});
 	}
 	function addComment(){
-		$('.comments').prepend($('.editable').html());
+		$('.comments').prepend("<br />"+$('.editable').html()+"<hr>");
 	}
 
 	function init (){

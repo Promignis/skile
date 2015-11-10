@@ -22,7 +22,7 @@ exports.getPaths = function(req, res){
 exports.getPath = function(req, res){
 	var pathId = req.params.id;
 	Path.findOne({_id: pathId}, function(err, path){
-		Comment.find({ topic: pathId}, function(err, comments){
+		Comment.find({ topic: pathId}).sort({'addedOn':-1}).exec(function(err, comments){
 			if(err) return console.error(err);
 			if(path){
 				res.render('path',{
