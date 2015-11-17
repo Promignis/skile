@@ -13,6 +13,7 @@ var lusca = require('lusca');
 var methodOverride = require('method-override');
 
 var _ = require('lodash');
+var moment = require('moment')
 var MongoStore = require('connect-mongo')(session);
 var flash = require('express-flash');
 var path = require('path');
@@ -98,6 +99,7 @@ app.use(function(req, res, next) {
   next();
 });
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
+app.locals.momet = moment;
 /**
  * Middleware
  *
