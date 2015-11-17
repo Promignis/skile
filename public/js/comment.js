@@ -28,6 +28,7 @@ $(document).ready(function (){
 
 	function getPostData(mySelector, id){
 		var body = $(mySelector).html();
+		console.log(id);
 		if(body){
 			return {
 				'body': body,
@@ -51,11 +52,15 @@ $(document).ready(function (){
 	}
 
 	function addComment(body, id){
-		$('.comments').prepend("<br /><hr>"+ body +"<button class='btn pull-right replyButton' data-id="+id+" >Discuss</button>");
+		if(body){
+			//$('.comments').prepend("<br /><hr>"+ body +"<button class='btn pull-right replyButton' data-id="+id+" >Discuss</button>");
+			location.reload();
+		}
 	}
 
 	function addReply(body, id){
-		$('div[data-id='+id+']').append("<br /><hr>"+ body +"<button class='btn pull-right replyButton' data-id="+id+" >Discuss</button>");
+		//$('div[data-id='+id+']').append("<br /><hr>"+ body +"<button class='btn pull-right replyButton' data-id="+id+" >Discuss</button>");
+		location.reload();
 	}
 
 	function init (){
@@ -90,7 +95,7 @@ $(document).ready(function (){
 			if($(this).text() === "Discuss"){
 				console.log($(this).text());
 				id = $(this).data("id");
-				id = id.substr(1, id.length-2);
+				// id = id.substr(1, id.length-2);
 				reply = new Reply(id , $(this));
 			}
 		}else{

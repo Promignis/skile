@@ -7,7 +7,7 @@ var commentSchema = new Schema({
   _creator: { type: ObjectId, required: true},
   _creatorName : { type: String, required: true},
   topic: { type: ObjectId},
-  replies: [{type: Number, ref: 'Comment'}],
+  replies: [{type: ObjectId, ref: 'Comment'}],
   addedOn: { type: Date, default: Date.Now }
 });
 

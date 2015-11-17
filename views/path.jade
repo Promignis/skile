@@ -14,22 +14,26 @@ block content
 		.row
 			.editable
 			button.btn.btn-danger.discuss Discuss
-			br
 	.row.comments
 		if comments
 			each comment in comments
-				br
-				hr
-				.comment(data-id=comment._id)
+				.comment(data-id=comment.id)
 					!=comment.body
-					if comment.replies.length
-						button.btn.pull-right Show Replies
-					else
 					if user
-						button(class="btn pull-right replyButton", data-id=comment._id) Discuss
+						button(class="btn pull-right replyButton", data-id=comment.id) Discuss
+					br
+					hr
+				if comment.replies.length
+					each reply in comment.replies
+						.reply(data-id=reply.id)
+							!=reply.body
+							if reply.replies.length
+								button(class="btn pull-right btn-danger showMore", data-id=reply.id) Show More
+							if user
+								button(class="btn pull-right replyButton", data-id=reply.id) Discuss
+							br
+							hr
 
-					else
-						p.pull-right Login to Discuss
 		else
 			p No comments!
 	script(src='/js/lib/paper-core.min.js', type="text/javascript")

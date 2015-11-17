@@ -12833,3 +12833,21 @@ footer p, footer ul {
   padding: 20px;
   -webkit-appearance: none;
 }
+
+.comment {
+  padding: 20px;
+}
+
+.reply {
+  margin-left: 50px;
+  border-left: 1px solid red;
+  padding: 20px;
+}
+
+.replyButton {
+  margin: 0px 10px;
+}
+
+.showMore {
+  margin: 0px 10px;
+}

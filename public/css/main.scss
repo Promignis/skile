@@ -123,6 +123,7 @@ footer {
   padding:20px;
   -webkit-appearance:none;
 }
+
 .editableReply{
   display:none;
   margin-top:20px;
@@ -131,4 +132,22 @@ footer {
   outline:0px !important;
   padding:20px;
   -webkit-appearance:none; 
+}
+
+.comment{
+  padding: 20px;
+}
+
+.reply{
+  margin-left:50px;
+  border-left: 1px solid red;
+  padding: 20px;
+}
+
+.replyButton{
+  margin: 0px 10px;
+}
+
+.showMore{
+  margin: 0px 10px;
 }
