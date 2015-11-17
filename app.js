@@ -145,10 +145,10 @@ app.post('/add-category', passportConf.isAuthenticated, addCategoryController.po
 
 app.get('/add-path', passportConf.isAuthenticated, addPathController.getAddPath);
 app.post('/add-path', passportConf.isAuthenticated, addPathController.postAddPath);
-app.get('/path/:id', pathController.getPath);
+app.get('/path/:id/:slug', pathController.getPath);
 
-app.get('/category/:id', categoryController.getCategory);
-app.get('/category/c/:id', categoryController.getCatChild);
+app.get('/category/:slug', categoryController.getCategory);
+app.get('/category/child/:slug', categoryController.getCatChild);
 
 app.get('/categories', categoryController.getCategories);
 app.post('/categories', categoryController.searchCategory);

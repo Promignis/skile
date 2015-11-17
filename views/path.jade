@@ -21,7 +21,7 @@ block content
 					!=comment.body
 					if user
 						button(class="btn pull-right replyButton", data-id=comment.id) Discuss
-					br
+						br
 					hr
 				if comment.replies.length
 					each reply in comment.replies
@@ -31,7 +31,7 @@ block content
 								button(class="btn pull-right btn-danger showMore", data-id=reply.id) Show More
 							if user
 								button(class="btn pull-right replyButton", data-id=reply.id) Discuss
-							br
+								br
 							hr
 
 		else

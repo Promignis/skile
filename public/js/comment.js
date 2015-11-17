@@ -85,7 +85,7 @@ $(document).ready(function (){
 		if($(this).text() === "Discuss"){
 			showEditor(this, '.editable');
 		}else{
-			hideEditor(this, '.editable', window.location.href.split("/")[4]);
+			hideEditor(this, '.editable', window.location.href.split("/")[4].split("/")[0]);
 		}
 	});
 

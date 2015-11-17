@@ -11,7 +11,7 @@ block content
     if categories
       each category in categories
         div.col-md-4
-          a(href="/category/"+category._id) 
+          a(href="/category/"+category.url) 
             button.btn.btn-default.btn-sm
               =category.title      
       a(class="pull-right", href="/categories") More
@@ -29,7 +29,7 @@ block content
     if paths
       each path in paths
         div.col-md-4
-          a(href="/path/"+path._id) 
+          a(href="/path/"+path.url) 
             button.btn.btn-default.btn-sm
               =path.title
       a(class="pull-right", href="/paths") More

@@ -10,7 +10,7 @@ block content
 	if categories
 		each category in categories
 			.row.list-group-item
-				a(href="/category/"+category._id)
+				a(href="/category/"+category.url)
 					=category.title
 				br
 				=category.description

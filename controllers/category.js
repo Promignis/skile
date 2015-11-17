@@ -2,8 +2,8 @@ var Category = require('../models/Category.js');
 var Link = require('../models/Link');
 
 exports.getCategory = function(req, res){
-	var categoryId = req.params.id;
-	Category.findOne({_id : categoryId}, function(err, cat){
+	var slug = req.params.slug;
+	Category.findOne({url : slug}, function(err, cat){
 		if(!cat){
 			req.flash('errors', { msg: 'Category not found!' });
 			res.redirect('/');
@@ -41,14 +41,14 @@ exports.getCategories = function(req, res){
 }
 
 exports.getCatChild = function(req, res){
-	var categoryId = req.params.id;
-	Category.findOne({_id : categoryId}, function(err, cat){
+	var slug = req.params.slug;
+	Category.findOne({url : slug}, function(err, cat){
 		if(err) return console.error(err);
 		if(!cat){
 			req.flash('errors', { msg: 'Category not found!' });
 			res.redirect('/');
 		}else{
-			Category.find({_parentId : categoryId}, function(err, childCats){
+			Category.find({_parentId : cat._id}, function(err, childCats){
 				if(err) return console.error(err);
 				if(childCats.length){
 					res.render('category',{
@@ -67,7 +67,7 @@ exports.getCatChild = function(req, res){
 }
 
 exports.searchCategory = function(req, res){
-	var query = req.body.catTitle;	
+	var query = req.body.catTitle;
 	Category.find({$text:{$search:query}}).limit(10).exec(function(err, cats){
 		if(err) return console.error(err);
 		if(!cats){
