@@ -1,12 +1,13 @@
 var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
 var mongoose = require('mongoose');
+var slug = require('slug');
 
 var userSchema = new mongoose.Schema({
   email: { type: String, unique: true, lowercase: true },
   fullName: String,
   password: String,
-
+  url: String,
   facebook: String,
   twitter: String,
   google: String,
@@ -38,6 +39,7 @@ userSchema.pre('save', function(next) {
     bcrypt.hash(user.password, salt, null, function(err, hash) {
       if (err) return next(err);
       user.password = hash;
+      user.url = slug(user.fullName).toLowerCase();
       next();
     });
   });

@@ -135,7 +135,7 @@ app.post('/account/delete', passportConf.isAuthenticated, userController.postDel
 app.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink);
 app.get('/profile', passportConf.isAuthenticated, userController.getMyProfile);
 
-app.get('/profile/:userId', userController.getUserProfile);
+app.get('/profile/:slug', userController.getUserProfile);
 
 app.get('/add-link', passportConf.isAuthenticated, addLinkController.getAddLink);
 app.post('/add-link', passportConf.isAuthenticated, addLinkController.postLink);
