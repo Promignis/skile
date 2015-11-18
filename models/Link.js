@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
 
 var linkSchema = new Schema({
   title: { type: String, unique: true, required: true },
-  url: { type: String, unique: true, lowercase: true, required: true },
+  url: { type: String, unique: true, required: true },
   description: String,
   type: String,
   _creator: { type: ObjectId, required: true},
