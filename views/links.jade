@@ -14,7 +14,7 @@ block content
 					=link.title
 				p
 					=link.description
-		if (pages > 1)
+		if (pages > 1 && page < pages + 1)
 				ul.pagination
 					if(page > 1)
 						li 
@@ -22,12 +22,13 @@ block content
 					li.active
 						a(href="/links?page="+page)
 							=page
-					if(page < pages-1)
+					if(page < pages)
 						li 
 							a(href="/links?page=#{page+1}") Next
-
-
-
-
+		else
+			h1 Page does not exist
+			ul.pagination
+				li
+					a(href="/links?page=#{pages}") Last
 	else
 		| 

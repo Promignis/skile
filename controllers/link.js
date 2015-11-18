@@ -1,10 +1,9 @@
 var Link = require('../models/Link');
 
 exports.getLinks = function(req, res){
-	var perPage = 1;
+	var perPage = 2;
 	var page = Math.max(parseInt(req.query.page), 1) || 1;
-	var from = page * perPage;
-	console.log(req.params.page, page, from);
+	var from = (page - 1) * perPage;
 	Link.find({}).skip(from).limit(perPage).sort({'addedOn' : -1}).exec(function(err, links){
 		if(err) return console.error(err);
 		
@@ -22,7 +21,7 @@ exports.getLinks = function(req, res){
 					links:links,
 					count: count,
 					page: page,
-					pages: count/perPage
+					pages: Math.ceil(count/perPage)
 				});	
 			});
 		}
