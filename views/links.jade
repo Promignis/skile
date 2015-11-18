@@ -14,5 +14,20 @@ block content
 					=link.title
 				p
 					=link.description
+		if (pages > 1)
+				ul.pagination
+					if(page > 1)
+						li 
+							a(href="/links?page=#{page-1}") Prev
+					li.active
+						a(href="/links?page="+page)
+							=page
+					if(page < pages-1)
+						li 
+							a(href="/links?page=#{page+1}") Next
+
+
+
+
 	else
 		| 
