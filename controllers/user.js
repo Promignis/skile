@@ -14,7 +14,6 @@ var secrets = require('../config/secrets');
 exports.getUserProfile = function(req, res){ 
   var slug = req.params.slug.toLowerCase();
   User.findOne({url: slug}, function(err, user){
-    console.log(user);
     if(err) return console.error(err);
     if(user){
       res.render('userProfile',{

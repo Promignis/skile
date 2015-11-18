@@ -2,7 +2,10 @@ extends layout
 block content
 	.row
 		.col-md-8
-			img(src=user.profile.picture)
+			if(user.profile.picture)
+				img(src=user.profile.picture)
+			else
+				img(src="#{user.gravatar()}")
 			h3
 				=user.fullName
 			p
