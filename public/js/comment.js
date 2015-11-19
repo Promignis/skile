@@ -5,14 +5,7 @@ $(document).ready(function (){
 	function sendComment (mySelector, id, isReply){
 		var postData = getPostData(mySelector, id);
 		postData.isReply = isReply;
-		$.ajax({
-			url: '/add-comment',
-			type: 'post',
-			data: postData,
-			headers: {
-			'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-		},
-		success: function(response){
+		ajax('/add-comment', postData, function(response){
 		   	if(response === 'e'){
 		   		console.log('error');
 			}else{
@@ -22,8 +15,7 @@ $(document).ready(function (){
 					addReply(postData.body, postData.topic);
 				}
 			} 
-		  }
-		});
+		  });
 	}
 
 	function getPostData(mySelector, id){

@@ -14,6 +14,13 @@ block content
 					=link.title
 				p
 					=link.description
+				select.rating(data-id=link.id, data-rating=link.rating)
+					option(value="1") Poor Resource
+					option(value="2") Below Average Resource
+					option(value="3") Average Resource
+					option(value="4") Great Resource
+					option(value="5") Excellent Resource
+					
 		if (pages > 1 && page < pages + 1)
 				ul.pagination
 					if(page > 1)

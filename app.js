@@ -38,6 +38,7 @@ var addPathController = require('./controllers/addPath');
 var apiController = require('./controllers/api');
 var typeController = require('./controllers/type');
 var commentController = require('./controllers/comment');
+var ratingController = require('./controllers/rating');
 
 /**
  * API keys and Passport configuration.
@@ -163,6 +164,8 @@ app.get('/api/type-search', passportConf.isAuthenticated, apiController.typeSear
 app.get('/add-type', passportConf.isAuthenticated, typeController.addType);
 
 app.post('/add-comment', passportConf.isAuthenticated, commentController.postComment);
+
+app.post('/add-rating', passportConf.isAuthenticated, ratingController.postRating);
 
 /**
  * OAuth authentication routes. (Sign in)

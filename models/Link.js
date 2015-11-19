@@ -12,6 +12,7 @@ var linkSchema = new Schema({
   _categoryId: ObjectId,
   _category: String,
   tags: { type: [ String ], index : true },
+  rating: {type: Number, default: -1},
   addedOn: { type: Date, default: Date.Now }
 });
 
