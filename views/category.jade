@@ -1,33 +1,35 @@
-extends layout
+extends layoutCategory
 block content
-	.row
-		.col-md-8
-			h1.catTitle
-				b
+	.container-fluid.no-margin
+		.row.category-header
+			.gradient-mask
+			.col-md-12.text-center
+				h3.catTitle
 					=cat.title
-			p
-				=cat.description
-		br
-		blockquote.col-md-4.form-group
-			if links
-				a(href="/category/child/"+cat.url, class="btn btn-danger col-md-6") Child Categories
-				button.btn.btn-danger.disabled.col-md-4.col-md-offset-2 links
-			else if childCats
-				button.btn.btn-danger.disabled.col-md-6 Child Categories
-				a(href="/category/"+cat.url, class="btn btn-danger col-md-4 col-md-offset-2") Links
-			else
-				a(href="/category/"+cat.url, class="btn btn-danger col-md-4 col-md-offset-2") Links
-	if links
-		each link in links
-			.row.list-group-item
-				a(href=link.url, target="_blank")
-					=link.title
 				p
-					=link.description
-	if childCats
-		each childCat in childCats
-			.row.list-group-item
-				a(href="/category/"+childCat.url)
-					=childCat.title
-				p
-					=childCat.description
+					=cat.description
+			.col-md-4.form-group.col-md-offset-8
+				if links
+					a(href="/category/c/"+cat._id, class="btn btn-transparent col-md-6") Child Categories
+					button.btn.btn-transparent.disabled.disabled-btn.col-md-4.col-md-offset-2 links
+				else if childCats
+					button.btn.btn-transparent.disabled.disabled-btn.col-md-6 Child Categories
+					a(href="/category/"+cat._id, class="btn btn-transparent col-md-4 col-md-offset-2") Links
+				else
+					a(href="/category/"+cat._id, class="btn btn-transparent col-md-4 col-md-offset-2") Links
+		.row
+			.col-md-10.col-md-offset-1.padded
+				if links
+					each link in links
+						.row.list-group-item
+							a(href=link.url, target="_blank")
+								=link.title
+							p
+								=link.description
+				if childCats
+					each childCat in childCats
+						.row.list-group-item
+							a(href="/category/"+childCat._id)
+								=childCat.title
+							p
+								=childCat.description
