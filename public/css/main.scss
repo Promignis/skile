@@ -6,6 +6,25 @@
 
 @import "themes/paper/styles";
 
+//color scheme
+// -------------------
+
+// blue
+// $gradient-highlight: #4f95da;
+// $gradient-midtone: #41629b;
+// $gradient-shadow: #2e3265;
+
+// red
+$gradient-shadow: #650e0c;
+$gradient-midtone: #a02420;
+$gradient-highlight: #e51c23;
+
+// text defaults
+$default-color: #ddd;
+$font-color: darken($default-color, 60%);
+$light-color: lighten($default-color, 20%);
+$dark-color: darken($default-color, 20%);
+
 // Scaffolding
 // -------------------------
 
@@ -150,4 +169,148 @@ footer {
 
 .showMore{
   margin: 0px 10px;
+}
+
+
+// navbar transparent
+// .navbar-default, .navbar, .navbar-fixed-top, .navbar-nav, .nav {
+  
+// }
+
+.navbar-default .navbar-nav > li > a {
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.navbar-transparent {
+  background: transparent;
+  box-shadow: none;
+}
+
+.navbar-transparent .navbar-nav > li > a {
+  color: white;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.nav-transparent {
+  margin-bottom: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.nav-transparent:before, .nav-transparent:after {
+  content: " ";
+  display: table;
+}
+
+.nav-transparent:after {
+  clear: both;
+}
+
+.nav-transparent > li {
+  position: relative;
+  display: block;
+}
+
+.nav-transparent > li > a {
+  position: relative;
+  display: block;
+  padding: 20.5px 20px;
+}
+
+.navbar-transparent > .container .navbar-brand {
+  color: $default-color;
+}
+
+.navbar-transparent .navbar-nav > li > a:hover, .navbar-transparent  .navbar-nav > li > a:focus {
+  color: white;
+  text-shadow: 0 0 2px $default-color;
+  transition: all 200ms ease-in;
+  text-decoration: none;
+}
+
+.nav-transparent > li > a:hover, .nav-transparent > li > a:focus {
+  color: white;
+  text-shadow: 0 0 2px $default-color;
+  transition: all 200ms ease-in;
+}
+
+// temporary hack, maybe not :P
+.pace-done, .pace-running {
+  padding: 0;
+}
+
+.padded {
+  padding-top: 60px;
+}
+
+// category header
+
+.category-header {
+  padding-top: 12em;
+  background-image: url('../triangular.png');
+  position: relative;
+}
+
+.no-margin {
+  margin: 0;
+  padding: 0;
+  width:100%;
+}
+
+.gradient-mask {
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient($gradient-shadow, $gradient-midtone, $gradient-highlight);
+  background-color: rgba(0,0,0,0);
+  position: absolute;
+  top: 0;
+  opacity: 0.65;
+}
+
+.form-group {
+  padding: 3em;
+}
+
+.catTitle {
+  font-size: 50px;
+  font-family: Oxygen;
+  font-weight: bold;
+  color: $light-color;
+}
+
+.catTitle ~ p {
+  font-size: 20px;
+  font-family: Oxygen;
+  color: $default-color;
+}
+
+.btn {
+  margin: 5px;
+  padding: 5px;
+}
+
+.btn-transparent {
+  background: transparent;
+  box-shadow: none;
+  border: 1px solid white;
+  color: $light-color;
+}
+
+.btn-transparent:hover {
+  background: white;
+  border: 1px solid white;
+  color: $gradient-highlight;
+}
+
+.disabled-btn:hover {
+  background: transparent;
+  color: $light-color;
+}
+
+//search button fuck up on every page
+
+.search-button {
+  margin: 39px 0px;
 }

@@ -1,6 +1,6 @@
 extends layout
 block content
-  .page-header
+  .page-header.col-md-offset-1.col-md-10
     h3 Add Link
   form.form-horizontal(method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
