@@ -5,7 +5,7 @@ $(document).ready(function(){
 		var rating = ratings[i];
 		var ratingValue = $(rating).data("rating");
 		$(rating).barrating('show',{
-			theme:'bars-square',
+			theme:'bars-reversed',
 			readonly: ratingValue > -1?true:false,
 			initialRating: ratingValue > -1? ratingValue: null,
 			onSelect: function(value, text, event){

@@ -15,11 +15,16 @@ block content
 				p
 					=link.description
 				select.rating(data-id=link.id, data-rating=link.rating)
-					option(value="1") Poor Resource
-					option(value="2") Below Average Resource
-					option(value="3") Average Resource
-					option(value="4") Great Resource
-					option(value="5") Excellent Resource
+					option(value="1") 1
+					option(value="2") 2
+					option(value="3") 3
+					option(value="4") 4
+					option(value="5") 5
+					option(value="6") 6
+					option(value="7") 7
+					option(value="8") 8
+					option(value="9") 9
+					option(value="10") 10
 					
 		if (pages > 1 && page < pages + 1)
 			.col-md-4.col-md-offset-1
@@ -34,8 +39,13 @@ block content
 						li 
 							a(href="/links?page=#{page+1}") Next
 		else
+<<<<<<< HEAD
 			h1 Page does not exist
 			.col-md-4.col-md-offset-1
+=======
+			if pages
+				h1 Page does not exist
+>>>>>>> 09523b7968c5f78fce181e436252beecc71364a5
 				ul.pagination
 					li
 						a(href="/links?page=#{pages}") Last
