@@ -12,6 +12,8 @@ pids
 logs
 results
 tmp
+todo.md
+colorScheme.md
 
 # Dependency directory
 node_modules
