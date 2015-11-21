@@ -12266,10 +12266,11 @@ footer p, footer ul {
   text-decoration: none;
 }
 
-.nav-transparent > li > a:hover, .nav-transparent > li > a:focus {
+.nav-transparent > li > a:hover, .nav-transparent > li > a:focus, .nav-transparent > li > a:active {
   color: white;
   text-shadow: 0 0 2px #ddd;
   transition: all 200ms ease-in;
+  background: transparent !important;
 }
 
 .pace-done, .pace-running {
@@ -12363,7 +12364,7 @@ footer p, footer ul {
   border: 8px solid transparent;
   border-bottom-color: #eaeaea;
   position: absolute;
-  top: -15px;
+  top: -16px;
   left: 20px;
 }
 
@@ -12380,11 +12381,27 @@ footer p, footer ul {
 }
 
 .downdrop-menu > li > a:hover {
-  background-color: #f7f7f7;
+  background-color: #ddd;
 }
 
-.alert-danger {
-  color: #b94a48;
-  background-color: #f2dede;
-  border-color: #eed3d7;
+.closing-btn {
+  margin-top: -3px;
+}
+
+.alert-red {
+  background-color: #e51c23;
+  border: 2px solid #b9151b;
+  opacity: 0.85;
+}
+
+.alert-blue {
+  background-color: #41629b;
+  border: 2px solid #324b77;
+  opacity: 0.85;
+}
+
+.alert-green {
+  background-color: #10ba54;
+  border: 2px solid #0c8b3f;
+  opacity: 0.85;
 }

@@ -16,8 +16,10 @@ html
     include partials/header
 
     .container.no-margin
-      .col-md-10.col-md-offset-1
-        include partials/flash
+      .col-md-12
+        .col-md-10.col-md-offset-1
+          include partials/flash
+        .col-md-10.col-md-offset-1
         block content
 
     include partials/footer
