@@ -39,13 +39,10 @@ block content
 						li 
 							a(href="/links?page=#{page+1}") Next
 		else
-<<<<<<< HEAD
-			h1 Page does not exist
+		HEAD
 			.col-md-4.col-md-offset-1
-=======
-			if pages
+			if !pages
 				h1 Page does not exist
->>>>>>> 09523b7968c5f78fce181e436252beecc71364a5
 				ul.pagination
 					li
 						a(href="/links?page=#{pages}") Last
