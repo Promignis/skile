@@ -25,16 +25,16 @@
             a.dropdown-toggle(href='#', data-toggle='dropdown')
               &nbsp;              
               i.fa.fa-plus.fa-lg
-            ul.dropdown-menu
+            ul.dropdown-menu.downdrop-menu
               li(class=title=='AddLink'?'active':undefined)
                 a(href='/add-link') Add Link
-              li.divider
+              li.divider.downdrop-divider
               li(class=title=='AddCategory'?'active':undefined)
                 a(href='/add-category') Add Category
-              li.divider
+              li.divider.downdrop-divider
               li(class=title=='AddPath'?'active':undefined)
                 a(href='/add-path') Add Path
-      ul.nav-transparent.navbar-nav.navbar-right
+      ul.nav.navbar-nav.navbar-right
         if !user
           li(class=title=='Login'?'active':undefined)
             a(href='/login') Login
@@ -47,10 +47,10 @@
                 img(src='#{user.profile.picture}')
               else
                 img(src='#{user.gravatar(60)}')
-              | #{user.fullName || user.email || user.id}
-            ul.dropdown-menu
+              | #{user.fullName || user.email || user.id}&nbsp;
+            ul.dropdown-menu.downdrop-menu
               li
                 a(href='/account') My Account
-              li.divider
+              li.divider.downdrop-divider
               li
                 a(href='/logout') Logout
