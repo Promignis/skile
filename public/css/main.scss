@@ -1,5 +1,4 @@
 @import "themes/paper/variables";
-
 @import "vendors/bootstrap/bootstrap";
 @import "vendors/bootstrap-social";
 @import "vendors/font-awesome/font-awesome";
@@ -23,9 +22,14 @@ $gradient-shadow: #2e3265;
 // text default
 $default-color: #ddd;
 $font-color: darken($default-color, 60%);
+$anchor-color: #3b5998;
 $light-color: lighten($default-color, 5%);
 $lighter-color: lighten($default-color, 10%);
 $dark-color: darken($default-color, 20%);
+
+$error-color: #e51c23;
+$info-color: #41629b;
+$success-color: #10ba54;
 
 // Scaffolding
 // -------------------------
@@ -232,10 +236,11 @@ footer {
   text-decoration: none;
 }
 
-.nav-transparent > li > a:hover, .nav-transparent > li > a:focus {
+.nav-transparent > li > a:hover, .nav-transparent > li > a:focus, .nav-transparent > li > a:active {
   color: white;
   text-shadow: 0 0 2px $default-color;
   transition: all 200ms ease-in;
+  background: transparent !important;
 }
 
 // temporary hack, maybe not :P
@@ -337,7 +342,7 @@ footer {
   border: 8px solid transparent;
   border-bottom-color: $light-color;
   position: absolute;
-  top: -15px;
+  top: -16px;
   left: 20px;
 }
 
@@ -354,13 +359,33 @@ footer {
 }
 
 .downdrop-menu > li > a:hover {
-  background-color: $lighter-color;
+  background-color: $default-color;
 }
 
-// alerts
+// .downdrop-menu > .active > a, .downdrop-menu > .active > a:hover, .downdrop-menu > .active > a:focus {
+//   background-color: $gradient-midtone;
+// }
 
-.alert-danger {
-  color: #b94a48;
-  background-color: #f2dede;
-  border-color: #eed3d7;
+// Alerts
+
+.closing-btn {
+  margin-top: -3px;
+}
+
+.alert-red {
+  background-color: $error-color;
+  border: 2px solid darken($error-color, 10%);
+  opacity: 0.85;
+}
+
+.alert-blue {
+  background-color: $info-color;
+  border: 2px solid darken($info-color, 10%);
+  opacity: 0.85;
+}
+
+.alert-green {
+  background-color: $success-color;
+  border: 2px solid darken($success-color, 10%);
+  opacity: 0.85;
 }
