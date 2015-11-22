@@ -4,7 +4,7 @@ exports.getLinks = function(req, res){
 	var perPage = 2;
 	var page = Math.max(parseInt(req.query.page), 1) || 1;
 	var from = (page - 1) * perPage;
-	Link.find({}).skip(from).limit(perPage).sort({'addedOn' : -1}).exec(function(err, links){
+	Link.find({}).skip(from).limit(perPage).populate('_rating').sort({'addedOn' : -1}).exec(function(err, links){
 		if(err) return console.error(err);
 		
 		if(!links){
@@ -12,13 +12,29 @@ exports.getLinks = function(req, res){
 			res.render('links',{
 				title:'Links'
 			});
-		}else{			
+		}else{
+			if(req.user){
+				for(var i = 0 ;i < links.length; i++){
+					if(req.user.id in links[i]._rating.userWhoVoted){
+						links[i].canVote = false;
+					}else{
+						links[i].canVote = true;
+					}
+					//saving bandwidth
+					links[i]._rating = null;
+				}
+			}else{
+				for(var i = 0 ;i < links.length; i++){
+					links[i].canVote = false;
+				}
+			}
 			Link.count().exec(function(err, count){
 				if(err) return console.error(err);
+				console.log("sending links");
 				res.render('links',
 				{
 					title:'Links',
-					links:links,
+					links: links,
 					count: count,
 					page: page,
 					pages: Math.ceil(count/perPage)

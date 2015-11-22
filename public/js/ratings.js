@@ -3,10 +3,15 @@ $(document).ready(function(){
 	var rating;
 	for(var i = 0; i < ratings.length; i++){
 		var rating = ratings[i];
-		var ratingValue = $(rating).data("rating");
+		var allRatings = $(rating).data("rating");
+		var ratingCount = $(rating).data("count") || 1;
+		var ratingValue = Math.floor(allRatings/ratingCount);
+		var alreadyVoted = $(rating).data("vote");
+		console.log(allRatings, ratingCount, ratingValue, alreadyVoted);
+
 		$(rating).barrating('show',{
 			theme:'bars-reversed',
-			readonly: ratingValue > -1?true:false,
+			readonly: !alreadyVoted,
 			initialRating: ratingValue > -1? ratingValue: null,
 			onSelect: function(value, text, event){
 				if (typeof(event) !== 'undefined') {
@@ -16,8 +21,10 @@ $(document).ready(function(){
 			      ajax('/add-rating', {id:id, ratingVal:value}, function(response){
 			      	if(response == "e"){
 			      		console.log("error rating");
+			      		$(rating).barrating('set', ratingValue);
 			      	}else{
-
+			      		console.log(allRatings, ratingCount, ratingValue, value);
+			      		$(rating).barrating('set', Math.floor((value+ratingCount)/ratingValue));
 			      	}
 			      });
 			    } else {
@@ -26,6 +33,7 @@ $(document).ready(function(){
 			    }
 			}
 		});
+		$(rating).barrating('set', ratingValue);
 	}
 		
 		
