@@ -15,22 +15,21 @@ $(document).ready(function(){
 			initialRating: ratingValue > -1? ratingValue: null,
 			onSelect: function(value, text, event){
 				if (typeof(event) !== 'undefined') {
-			      var anchor = event.target;
-			      var id = $($(anchor).parent().siblings()[0]).data("id");
-			      var status = $($(anchor).parent().siblings()[0]).data("status");
-			      ajax('/add-rating', {id:id, ratingVal:value}, function(response){
-			      	if(response == "e"){
-			      		console.log("error rating");
-			      		$(rating).barrating('set', ratingValue);
-			      	}else{
-			      		console.log(allRatings, ratingCount, ratingValue, value);
-			      		$(rating).barrating('set', Math.floor((value+ratingCount)/ratingValue));
-			      	}
-			      });
-			    } else {
-			      // rating was selected programmatically
-			      // by calling `set` method
-			    }
+					var anchor = event.target;
+					var id = $($(anchor).parent().siblings()[0]).data("id");
+					ajax('/add-rating', {id:id, ratingVal:value}, function(response){
+						if(response == "e"){
+				      		console.log("error rating");
+				      		$(rating).barrating('set', ratingValue);
+						}else{
+							console.log(allRatings, ratingCount, ratingValue, value);
+							$(rating).barrating('set', Math.floor((value+ratingCount)/ratingValue));
+						}
+					});
+				} else {
+					// rating was selected programmatically
+					// by calling `set` method
+				}
 			}
 		});
 		$(rating).barrating('set', ratingValue);
