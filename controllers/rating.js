@@ -4,9 +4,10 @@ var Rating = require('../models/Rating');
 exports.postRating = function(req, res){
 	var id = req.body.id;
 	var value = req.body.ratingVal;
+	console.log("incoming data for user  : ",req.user.id, req.body);
 	Rating.find({'userWhoVoted':req.user.id}, function(err, result){
+		console.log(err, result);
 		if(err) return console.error(err);
-		console.log(result);
 		if(!result.length){
 			Rating.update({topic: id}, {$push: {userWhoVoted: req.user.id}}, function(err, result){
 				if(err){
