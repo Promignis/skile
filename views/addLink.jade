@@ -29,15 +29,14 @@ block content
           input.form-control(name='newType', class='type-search', placeholder='new type', type='text')
         .col-md-4
           button.btn.btn-danger.add-type(type="button") Add
-
-    .form-group
+    .form-group.row
       label.col-sm-3.control-label(for='tags') Tags
       .col-sm-7
-        input.form-control(type='text', name='tags', id='tags', placeholder='tags')
-    .form-group
+        input.form-control(type='text', name='tags', id='tags', placeholder='Tags')
+    .form-group.row
       label.col-sm-3.control-label(for='description') Description
       .col-sm-7
-        textarea.form-control(type='text', name='description', id='description', rows="5",placeholder='description')
-    .form-group
+        textarea.form-control(type='text', name='description', id='description', rows="4",placeholder='Description')
+    .form-group.row
       .col-sm-offset-3.col-sm-7
         button.col-sm-3.btn.btn-primary(type='submit') Add Link

@@ -124,7 +124,7 @@ function createNode(x, y, r, c){
 
 function createLine(p1, p2){
 	var tempLine = new Path.Line(p1.position, p2.position);
-	tempLine.strokeColor = "red";
+	tempLine.strokeColor = "#367cc1";
 	tempLine.myId = getId();
 	lineObject[tempLine.myId] = tempLine;
 	lineObject[tempLine.myId].nodes = [p1, p2];
@@ -160,14 +160,14 @@ function select(node){
 	if(selectedNodeId != node.myId){
 		deselect();
 	}
-	node.fillColor = "blue";
+	node.fillColor = "#e51c23";
 	selectedNodeId = node.myId;
 }
 
 function deselect(){
 	// there was a bug here, selectedNodeId has a value that is not in nodeObjects
 	if(nodeObjects[selectedNodeId]){
-		nodeObjects[selectedNodeId].fillColor = "red";
+		nodeObjects[selectedNodeId].fillColor = "#367cc1";
 		selectedNodeId = null;
 	}
 }
@@ -175,9 +175,9 @@ function deselect(){
 function onMouseDown(event){
 	if(!event.item && !event.event.button){
 		if(selectedNodeId){
-			connectNode(selectedNodeId, createNode(event.point.x, event.point.y, GS.NODE_RADIUS, "red"));
+			connectNode(selectedNodeId, createNode(event.point.x, event.point.y, GS.NODE_RADIUS, "#367cc1"));
 		}else{
-			connectNode(rootId, createNode(event.point.x, event.point.y, GS.NODE_RADIUS, "red"));
+			connectNode(rootId, createNode(event.point.x, event.point.y, GS.NODE_RADIUS, "#367cc1"));
 		}
 	}else if(event.item && !event.event.button){
 		// left click on node
@@ -215,7 +215,7 @@ function isDirectlyConnected(firstNode, secondNode){
 var rootId;
  
 function init(){
-	rootId = setRoot(createNode(GS.ROOT_NODE_X, GS.ROOT_NODE_Y, GS.NODE_RADIUS, "red"));
+	rootId = setRoot(createNode(GS.ROOT_NODE_X, GS.ROOT_NODE_Y, GS.NODE_RADIUS, "#367cc1"));
 }
 
 init();
