@@ -6,10 +6,11 @@ exports.postRating = function(req, res){
 	var value = req.body.ratingVal;
 	console.log("incoming data for user  : ",req.user.id, req.body);
 	Rating.find({'userWhoVoted':req.user.id}, function(err, result){
-		console.log(err, result);
+		console.log("if already voted or not ",err, result);
 		if(err) return console.error(err);
 		if(!result.length){
 			Rating.update({topic: id}, {$push: {userWhoVoted: req.user.id}}, function(err, result){
+				console.log("update result ",err, result);
 				if(err){
 					res.send("e");
 				}else{

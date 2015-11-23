@@ -39,11 +39,16 @@ exports.postLink = function(req, res, next){
 				if(err) return console.error(err);
 				if(result){
 					newLink.save(function(err, result){
-						if(err.code!==11000) return console.error(err);
-						if(err.code===11000){
-							req.flash('errors', { msg: newLink.url + 'has already been added to skile!' });
-							res.redirect('/add-link');
+						if(err){
+							if(err.code!==11000){
+								 return console.error(err);
+							}else{
+								req.flash('errors', { msg: newLink.url + 'has already been added to skile!' });
+								res.redirect('/add-link');
+								return;
+							}
 						}else{
+
 							req.flash('success', { msg: 'Link has been successfully added to '+cat.title+' !' });
 							Type.find({}).limit(5).sort({'addedOn':1}).exec(function(err, types){
 								if(err) return console.error(err);
@@ -56,9 +61,8 @@ exports.postLink = function(req, res, next){
 									req.flash('errors', { msg: 'Types not found!' });
 									res.redirect('/add-link');
 								}
-							});	
+							});		
 						}
-						
 					});
 				}
 			});

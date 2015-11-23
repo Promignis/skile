@@ -40,9 +40,8 @@ block content
 							a(href="/links?page=#{page+1}") Next
 		else
 			.col-md-4.col-md-offset-1
-			if !pages
+			if page >= pages + 1
 				h1 Page does not exist
-			else
 				ul.pagination
 					li
 						a(href="/links?page=#{pages}") Last
