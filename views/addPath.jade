@@ -9,29 +9,29 @@ block content
         p Path is a sequence in which one should follow links.
   form.form-horizontal.add-path-form(method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
-    .form-group
+    .form-group.row
       label.col-sm-3.control-label(for='title') Title
       .col-sm-7
-        input.form-control(type='text', name='title', id='title', placeholder='title')
-    .form-group
+        input.form-control(type='text', name='title', id='title', placeholder='Title')
+    .form-group.row
       label.col-sm-3.control-label(for='title') Path Link
       .col-sm-7
-        input.form-control(type='text', class="path-search", id='currentPathLink', placeholder='current path link')  
+        input.form-control(type='text', class="path-search", id='currentPathLink', placeholder='Current path link')  
     canvas(id="myCanvas", width="600", height="200", resize="true")
     input.path-data.hide(name="path")
-    .form-group
+    .form-group.row
       label.col-sm-3.control-label(for='Category') Category
       .col-sm-7
         input.form-control(type='text', name='category', class='category-search', placeholder='Category')
-    .form-group
+    .form-group.row
       label.col-sm-3.control-label(for='tags') Tags
       .col-sm-7
-        input.form-control(type='text', name='tags', id='tags', placeholder='tags')
-    .form-group
+        input.form-control(type='text', name='tags', id='tags', placeholder='Tags')
+    .form-group.row
       label.col-sm-3.control-label(for='description') Description
       .col-sm-7
-        textarea.form-control(type='text', name='description', id='description', rows="5",placeholder='description')
-    .form-group
+        textarea.form-control(type='text', name='description', id='description', rows="4",placeholder='Description')
+    .form-group.row
       .col-sm-offset-3.col-sm-7
         button.col-sm-3.btn.btn-primary(type='submit') Add Path
   script(src='/js/lib/paper-full.min.js', type="text/javascript")
