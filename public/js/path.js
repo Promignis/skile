@@ -18,7 +18,8 @@ var GS = {
 	"ROOT_NODE_Y" : 150
 };
 var selectedNodeId = 1;
-
+var defaultNodeColor = "#4f95da";
+var selectColor = "#41629b";
 
 function getRatioDimension(x, y){
 	var viewW = view.viewSize._width;
@@ -124,7 +125,7 @@ function createNode(x, y, r, c){
 
 function createLine(p1, p2){
 	var tempLine = new Path.Line(p1.position, p2.position);
-	tempLine.strokeColor = "#367cc1";
+	tempLine.strokeColor = defaultNodeColor;
 	tempLine.myId = getId();
 	lineObject[tempLine.myId] = tempLine;
 	lineObject[tempLine.myId].nodes = [p1, p2];
@@ -160,14 +161,14 @@ function select(node){
 	if(selectedNodeId != node.myId){
 		deselect();
 	}
-	node.fillColor = "#e51c23";
+	node.fillColor = selectColor;
 	selectedNodeId = node.myId;
 }
 
 function deselect(){
 	// there was a bug here, selectedNodeId has a value that is not in nodeObjects
 	if(nodeObjects[selectedNodeId]){
-		nodeObjects[selectedNodeId].fillColor = "#367cc1";
+		nodeObjects[selectedNodeId].fillColor = defaultNodeColor;
 		selectedNodeId = null;
 	}
 }
@@ -175,9 +176,9 @@ function deselect(){
 function onMouseDown(event){
 	if(!event.item && !event.event.button){
 		if(selectedNodeId){
-			connectNode(selectedNodeId, createNode(event.point.x, event.point.y, GS.NODE_RADIUS, "#367cc1"));
+			connectNode(selectedNodeId, createNode(event.point.x, event.point.y, GS.NODE_RADIUS, defaultNodeColor));
 		}else{
-			connectNode(rootId, createNode(event.point.x, event.point.y, GS.NODE_RADIUS, "#367cc1"));
+			connectNode(rootId, createNode(event.point.x, event.point.y, GS.NODE_RADIUS, defaultNodeColor));
 		}
 	}else if(event.item && !event.event.button){
 		// left click on node
@@ -190,7 +191,6 @@ function onMouseDown(event){
 		var firstNode = nodeObjects[selectedNodeId];
 		var secondNode = event.item;
 		if(!isDirectlyConnected(firstNode, secondNode) && secondNode.myParents){
-			console.log(encodeToJson())
 			if(firstNode.myChildren.length > secondNode.myChildren.length){
 				connectNode(selectedNodeId, secondNode.myId, true);
 			}else{
@@ -215,7 +215,7 @@ function isDirectlyConnected(firstNode, secondNode){
 var rootId;
  
 function init(){
-	rootId = setRoot(createNode(GS.ROOT_NODE_X, GS.ROOT_NODE_Y, GS.NODE_RADIUS, "#367cc1"));
+	rootId = setRoot(createNode(GS.ROOT_NODE_X, GS.ROOT_NODE_Y, GS.NODE_RADIUS, defaultNodeColor));
 }
 
 init();

@@ -11,10 +11,15 @@ block content
 		if links.length
 			each link in links
 				.row.list-group-item.col-md-10.col-md-offset-1
+					if user.id == link._creator
+						i.fa.fa-remove.pull-right
+						i.fa.fa-edit.pull-right
 					a(href=link.url, target="_blank")
 						=link.title
 					p
 						=link.description
+					a.pull-right(href="/profile/"+link._creatorUrl)
+						=link._creatorName
 					select.rating(data-id=link.id, data-vote="#{link.canVote}", data-count=link.ratingCount, data-rating=link.ratingSum)
 						option(value="1") 1
 						option(value="2") 2

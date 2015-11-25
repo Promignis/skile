@@ -107,7 +107,7 @@ footer {
 }
 .paths-canvas {
   width:100%;
-  border: 1px solid red;
+  border: 1px solid $gradient-midtone;
   margin-top: 30px; 
 }
 .red-text{
@@ -117,7 +117,7 @@ footer {
 .editable{
   display:none;
   height:200px;
-  border: 1px solid red;
+  border: 1px solid $gradient-midtone;
   outline:0px !important;
   padding:20px;
   -webkit-appearance:none;
@@ -127,7 +127,7 @@ footer {
   display:none;
   margin-top:20px;
   height:100px;
-  border: 1px solid red;
+  border: 1px solid $gradient-midtone;
   outline:0px !important;
   padding:20px;
   -webkit-appearance:none; 
@@ -139,7 +139,7 @@ footer {
 
 .reply{
   margin-left:50px;
-  border-left: 1px solid red;
+  border-left: 1px solid $gradient-midtone;
   padding: 10px;
 }
 
