@@ -21,6 +21,9 @@ $(document).ready(function(){
 						if(response == "e"){
 				      		console.log("error rating");
 				      		$(rating).barrating('set', ratingValue);
+						}else if(response == "already_v"){
+							alert("already voted");
+				      		$(rating).barrating('set', ratingValue);
 						}else{
 							console.log(allRatings, ratingCount, ratingValue, value);
 							$(rating).barrating('set', Math.floor((value+ratingCount)/ratingValue));

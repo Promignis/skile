@@ -5,9 +5,10 @@ exports.postRating = function(req, res){
 	var id = req.body.id;
 	var value = req.body.ratingVal;
 	console.log("incoming data for user  : ",req.user.id, req.body);
-	Rating.find({'userWhoVoted':req.user.id}, function(err, result){
+	Rating.find({topic : id,'userWhoVoted':req.user.id}, function(err, result){
 		console.log("if already voted or not ",err, result);
 		if(err) return console.error(err);
+		// first time voting
 		if(!result.length){
 			Rating.update({topic: id}, {$push: {userWhoVoted: req.user.id}}, function(err, result){
 				console.log("update result ",err, result);
@@ -24,7 +25,7 @@ exports.postRating = function(req, res){
 				}
 			});
 		}else{
-			res.send("e");
+			res.send("already_v");
 		}
 	});
 }	
