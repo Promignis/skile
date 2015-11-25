@@ -1,12 +1,13 @@
 extends layout
 block content
-	.row
-		.col-md-8
-			if(user.profile.picture)
-				img(src=user.profile.picture)
-			else
-				img(src="#{user.gravatar()}")
-			h3
-				=user.fullName
-			p
-				=user.email
+	if profileUser
+		.row
+			.col-md-8
+				if(profileUser.profile.picture)
+					img(src=profileUser.profile.picture)
+				else
+					img(src="#{profileUser.gravatar()}")
+				h3
+					=profileUser.fullName
+				p
+					=profileUser.email
