@@ -11,3 +11,5 @@ block content
 					=profileUser.fullName
 				p
 					=profileUser.email
+				if user.id!=profileUser.id
+					button.btn.btn-danger Follow

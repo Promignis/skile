@@ -8,7 +8,12 @@ block content
 				img(src="#{user.gravatar()}")
 			h3
 				=user.fullName
-			h4 Rating Count #{stats.ratingCount}
-			h4 Rating Sum #{stats.ratingSum}
-			- var sum = stats.ratingSum/stats.ratingCount
-			h2 Avg Ratings #{sum}
+			-var sum = 0
+			-var count = 0
+			each stat in stats
+				- sum += stat.ratingSum
+				- count += stat.ratingCount
+			- var avg = sum/count
+			h4 Rating Count #{count}
+			h4 Rating Sum #{sum}
+			h2 Avg Ratings #{avg}
