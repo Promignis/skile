@@ -39,6 +39,7 @@ var apiController = require('./controllers/api');
 var typeController = require('./controllers/type');
 var commentController = require('./controllers/comment');
 var ratingController = require('./controllers/rating');
+var statsController = require('./controllers/stats');
 
 /**
  * API keys and Passport configuration.
@@ -168,6 +169,8 @@ app.post('/add-comment', passportConf.isAuthenticated, commentController.postCom
 app.post('/add-rating', passportConf.isAuthenticated, ratingController.postRating);
 
 app.get('/my-links', passportConf.isAuthenticated, linkController.myLinks);
+
+app.get('/my-stats', passportConf.isAuthenticated, statsController.myStats);
 
 /**
  * OAuth authentication routes. (Sign in)
