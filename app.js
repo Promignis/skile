@@ -167,6 +167,8 @@ app.post('/add-comment', passportConf.isAuthenticated, commentController.postCom
 
 app.post('/add-rating', passportConf.isAuthenticated, ratingController.postRating);
 
+app.get('/my-links', passportConf.isAuthenticated, linkController.myLinks);
+
 /**
  * OAuth authentication routes. (Sign in)
  */

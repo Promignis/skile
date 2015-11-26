@@ -10,10 +10,12 @@ block content
 		.row
 		if links.length
 			each link in links
-				.row.list-group-item.col-md-10.col-md-offset-1
+				.row.list-group-item.col-md-10.col-md-offset-1(data-id=link.id)
 					if user.id == link._creator
-						i.fa.fa-remove.pull-right
-						i.fa.fa-edit.pull-right
+						a(href="#")
+							i.fa.fa-remove.pull-right
+						a(href="#")
+							i.fa.fa-edit.pull-right
 					a(href=link.url, target="_blank")
 						=link.title
 					p

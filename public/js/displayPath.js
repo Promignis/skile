@@ -7,8 +7,6 @@ var selectedNodeId = [];
 var linkInfo = [];
 
 var defaultNodeColor = "#4f95da";
-//var selectColor = "#41629b";
-
 
 function setRoot(id, index){
 	nodeObjects[index][id].isRoot = true;
