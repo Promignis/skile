@@ -7,8 +7,6 @@ $(document).ready(function(){
 		var ratingCount = $(rating).data("count") || 1;
 		var ratingValue = Math.floor(allRatings/ratingCount);
 		var alreadyVoted = $(rating).data("vote");
-		console.log(allRatings, ratingCount, ratingValue, alreadyVoted);
-
 		$(rating).barrating('show',{
 			theme:'bars-reversed',
 			readonly: !alreadyVoted,
@@ -17,7 +15,7 @@ $(document).ready(function(){
 				if (typeof(event) !== 'undefined') {
 					var anchor = event.target;
 					var id = $($(anchor).parent().siblings()[0]).data("id");
-					ajax('/add-rating', {id:id, ratingVal:value}, function(response){
+					ajax('post', '/add-rating', {id:id, ratingVal:value}, function(response){
 						if(response == "e"){
 				      		console.log("error rating");
 				      		$(rating).barrating('set', ratingValue);

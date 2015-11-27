@@ -5,7 +5,7 @@ $(document).ready(function (){
 	function sendComment (mySelector, id, isReply){
 		var postData = getPostData(mySelector, id);
 		postData.isReply = isReply;
-		ajax('/add-comment', postData, function(response){
+		ajax('post', '/add-comment', postData, function(response){
 		   	if(response === 'e'){
 		   		console.log('error');
 			}else{

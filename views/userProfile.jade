@@ -12,4 +12,7 @@ block content
 				p
 					=profileUser.email
 				if user.id!=profileUser.id
-					button.btn.btn-danger Follow
+					- if (profileUser.followers.indexOf(user.id) !== -1)
+						button.btn.btn-danger#following(data-id=profileUser.id) Following
+					- else
+						button.btn.btn-danger#follow(data-id=profileUser.id) Follow

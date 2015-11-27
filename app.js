@@ -172,6 +172,9 @@ app.get('/my-links', passportConf.isAuthenticated, linkController.myLinks);
 
 app.get('/my-stats', passportConf.isAuthenticated, statsController.myStats);
 
+app.post('/follow', passportConf.isAuthenticated, userController.follow);
+app.post('/unfollow', passportConf.isAuthenticated, userController.unfollow);
+
 /**
  * OAuth authentication routes. (Sign in)
  */
