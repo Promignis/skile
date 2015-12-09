@@ -4,9 +4,9 @@ var Rating = require('../models/Rating');
 exports.postRating = function(req, res){
 	var id = req.body.id;
 	var value = req.body.ratingVal;
-	console.log("incoming data for user  : ",req.user.id, req.body);
+	// console.log("incoming data for user  : ",req.user.id, req.body);
 	Rating.find({topic : id,'userWhoVoted':req.user.id}, function(err, result){
-		console.log("if already voted or not ",err, result);
+		// console.log("if already voted or not ",err, result);
 		if(err) return console.error(err);
 		// first time voting
 		if(!result.length){

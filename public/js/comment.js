@@ -6,16 +6,16 @@ $(document).ready(function (){
 		var postData = getPostData(mySelector, id);
 		postData.isReply = isReply;
 		ajax('post', '/add-comment', postData, function(response){
-		   	if(response === 'e'){
-		   		console.log('error');
+			if(response === 'e'){
+				console.log('error');
 			}else{
 				if(!isReply){
 					addComment(postData.body, postData.topic);
 				}else{
 					addReply(postData.body, postData.topic);
 				}
-			} 
-		  });
+			}
+		});
 	}
 
 	function getPostData(mySelector, id){

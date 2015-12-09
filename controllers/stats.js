@@ -9,7 +9,6 @@ exports.myStats = function(req, res){
 		}},
 		{$group:{_id:"$_id",ratingSum:{$sum:"$ratingSum"},ratingCount:{$sum:"$ratingCount"}}}
 	], function(err, result){
-		console.log(result);
 		if(err) return console.error(err);
 		res.render('stats', {
 			title:'myStats',

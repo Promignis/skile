@@ -9,20 +9,22 @@ block content
 				button(class="btn btn-default btn-danger col-md-3 search-button") Submit
 		.row
 		if links.length
+			- var i = 0;
 			each link in links
 				.row.list-group-item.col-md-10.col-md-offset-1(data-id=link.id)
-					if user.id == link._creator
-						a(href="#")
-							i.fa.fa-remove.pull-right
-						a(href="#")
-							i.fa.fa-edit.pull-right
+					if user
+						if user.id == link._creator
+							a(href="#")
+								i.fa.fa-remove.pull-right
+							a(href="#")
+								i.fa.fa-edit.pull-right
 					a(href=link.url, target="_blank")
 						=link.title
 					p
 						=link.description
 					a.pull-right(href="/profile/"+link._creatorUrl)
 						=link._creatorName
-					select.rating(data-id=link.id, data-vote="#{link.canVote}", data-count=link.ratingCount, data-rating=link.ratingSum)
+					select.rating(data-id=link.id, data-vote="#{link.canVote}", data-rating_id=i,data-count=link.ratingCount, data-rating=link.ratingSum)
 						option(value="1") 1
 						option(value="2") 2
 						option(value="3") 3
@@ -33,21 +35,23 @@ block content
 						option(value="8") 8
 						option(value="9") 9
 						option(value="10") 10
+				- i+=1;
 
 			if (pages > 1 && page < pages + 1)
 				.col-md-4.col-md-offset-1
 					ul.pagination
 						if(page > 1)
-							li 
+							li
 								a(href="/links?page=#{page-1}") Prev
 						li.active
 							a(href="/links?page="+page)
 								=page
 						if(page < pages)
-							li 
+							li
 								a(href="/links?page=#{page+1}") Next
 		else
 			h1 No links found!
-			ul.pagination
-				li
-					a(href="/links?page=#{pages}") Last
+			if page > pages + 1
+				ul.pagination
+					li
+						a(href="/links?page=#{pages}") Last
