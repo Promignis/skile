@@ -156,6 +156,8 @@ app.get('/categories', categoryController.getCategories);
 app.post('/categories', categoryController.searchCategory);
 app.get('/links', linkController.getLinks);
 app.post('/links', linkController.searchLinks);
+app.post('/update-link', passportConf.isAuthenticated, linkController.updateLink);
+
 app.get('/paths', pathController.getPaths);
 
 app.get('/api/category-search', apiController.categorySearch);

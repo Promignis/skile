@@ -92,3 +92,12 @@ exports.myLinks = function(req, res){
 		});
 	});
 }
+
+exports.updateLink = function(req, res){
+	var linkData = req.body;
+	Link.update({_id:linkData.id}, {$set:{title: linkData.title, url: linkData.url}}, function(err, result){
+		if(err) return res.send('e');
+		// check if nModified is > 0 else error
+		res.send(result);
+	});
+}
