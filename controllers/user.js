@@ -13,11 +13,12 @@ var secrets = require('../config/secrets');
 
 exports.getUserProfile = function(req, res){ 
   var slug = req.params.slug.toLowerCase();
+  console.log(slug);
   User.findOne({url: slug}, function(err, user){
     if(err) return console.error(err);
     if(user){
       res.render('userProfile',{
-        user: user,
+        profileUser: user,
         title: "Profile"
       });
     }else{
@@ -35,7 +36,7 @@ exports.getMyProfile = function(req, res){
     if(err) return console.error(err);
     if(user){
       res.render('userProfile',{
-        user: user,
+        profileUser: user,
         title: "Profile"
       });
     }else{
@@ -46,7 +47,49 @@ exports.getMyProfile = function(req, res){
     }
   });
 }
+// following users
+exports.follow = function(req, res){
+  var idToFollow = req.body.id;
+  if(idToFollow !== req.user.id){
+    User.update({_id:req.user.id}, {$push:{following:idToFollow}}, function(err, result){
+      if(err) res.send("e");
+      if(result){
+        User.update({_id:idToFollow}, {$push:{followers:req.user.id}}, function(err, result){
+          if(err) res.send("e");
+          if(result){
+            res.send("done");
+          }else{
+            res.send("e");
+          }
+        });
+      }
+    });
+  }else{
+    res.send("e");
+  }
+}
 
+// unfollowing
+exports.unfollow = function(req, res){
+  var idToFollow = req.body.id;
+  if(idToFollow !== req.user.id){
+    User.update({_id:req.user.id}, {$pull:{following:idToFollow}}, function(err, result){
+      if(err) res.send("e");
+      if(result){
+        User.update({_id:idToFollow}, {$pull:{followers:req.user.id}}, function(err, result){
+          if(err) res.send("e");
+          if(result){
+            res.send("done");
+          }else{
+            res.send("e");
+          }
+        });
+      }
+    });
+  }else{
+    res.send("e");
+  }
+}
 
 /**
  * GET /login

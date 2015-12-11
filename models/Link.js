@@ -10,6 +10,7 @@ var linkSchema = new Schema({
   _creator: { type: ObjectId, required: true},
   _creatorName : { type: String, required: true},
   _categoryId: ObjectId,
+  _creatorUrl: String,
   _category: String,
   tags: { type: [ String ], index : true },
   ratingSum: {type: Number, default: 0},

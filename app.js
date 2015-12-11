@@ -39,6 +39,7 @@ var apiController = require('./controllers/api');
 var typeController = require('./controllers/type');
 var commentController = require('./controllers/comment');
 var ratingController = require('./controllers/rating');
+var statsController = require('./controllers/stats');
 
 /**
  * API keys and Passport configuration.
@@ -155,6 +156,8 @@ app.get('/categories', categoryController.getCategories);
 app.post('/categories', categoryController.searchCategory);
 app.get('/links', linkController.getLinks);
 app.post('/links', linkController.searchLinks);
+app.post('/update-link', passportConf.isAuthenticated, linkController.updateLink);
+
 app.get('/paths', pathController.getPaths);
 
 app.get('/api/category-search', apiController.categorySearch);
@@ -166,6 +169,13 @@ app.get('/add-type', passportConf.isAuthenticated, typeController.addType);
 app.post('/add-comment', passportConf.isAuthenticated, commentController.postComment);
 
 app.post('/add-rating', passportConf.isAuthenticated, ratingController.postRating);
+
+app.get('/my-links', passportConf.isAuthenticated, linkController.myLinks);
+
+app.get('/my-stats', passportConf.isAuthenticated, statsController.myStats);
+
+app.post('/follow', passportConf.isAuthenticated, userController.follow);
+app.post('/unfollow', passportConf.isAuthenticated, userController.unfollow);
 
 /**
  * OAuth authentication routes. (Sign in)

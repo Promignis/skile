@@ -2,6 +2,8 @@ var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
 var mongoose = require('mongoose');
 var slug = require('slug');
+var Schema = mongoose.Schema;
+var ObjectId = Schema.ObjectId;
 
 var userSchema = new mongoose.Schema({
   email: { type: String, unique: true, lowercase: true },
@@ -23,7 +25,9 @@ var userSchema = new mongoose.Schema({
     picture: { type: String, default: '' }
   },
   resetPasswordToken: String,
-  resetPasswordExpires: Date
+  resetPasswordExpires: Date,
+  following: [ ObjectId ],
+  followers: [ ObjectId ]
 });
 
 /**

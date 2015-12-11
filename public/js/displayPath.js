@@ -6,6 +6,7 @@ var GS = [];
 var selectedNodeId = [];
 var linkInfo = [];
 
+var defaultNodeColor = "#4f95da";
 
 function setRoot(id, index){
 	nodeObjects[index][id].isRoot = true;
@@ -67,7 +68,7 @@ function createNode(x, y, r, c, paper, index){
 
 function createLine(p1, p2, paper, index){
 	var tempLine = new paper.Path.Line(p1.position, p2.position);
-	tempLine.strokeColor = "red";
+	tempLine.strokeColor = defaultNodeColor;
 	tempLine.myId = getId(index);
 	lineObjects[index][tempLine.myId] = tempLine;
 	lineObjects[index][tempLine.myId].nodes = [p1, p2];
@@ -99,7 +100,7 @@ function connectNodes(path, paper, index){
 function createRoot(canvasCount, paper){
 	return setRoot(createNode(GS[canvasCount].ROOT_NODE_X, 
 						GS[canvasCount].ROOT_NODE_Y, GS[canvasCount].NODE_RADIUS, 
-						"red", paper, canvasCount), canvasCount);
+						defaultNodeColor, paper, canvasCount), canvasCount);
 }
 
 function addLinkInfo(key, nodeData, index){
@@ -125,7 +126,7 @@ function drawPaths(paper, path, canvasCount){
 				}else{
 					var x = path[key].posRatio.x * paper.view.viewSize._width;
 					var y = path[key].posRatio.y * paper.view.viewSize._height;
-					createNode(x, y, GS[canvasCount].NODE_RADIUS, "red", paper, canvasCount);
+					createNode(x, y, GS[canvasCount].NODE_RADIUS, defaultNodeColor, paper, canvasCount);
 					addLinkInfo(key, path[key], canvasCount);
 					paper.view.draw();
 				}

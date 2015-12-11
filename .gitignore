@@ -13,6 +13,7 @@ logs
 results
 tmp
 todo.md
+bugs.md
 colorScheme.md
 
 # Dependency directory
@@ -29,3 +30,4 @@ Thumbs.db
 .env
 config/secrets.js
 config/.env
+public/css/main.css
