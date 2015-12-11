@@ -12409,8 +12409,17 @@ footer p, footer ul {
 }
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+  background-color: #94bfea;
+  color: #f7f7f7;
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
   background-color: #4f95da;
   color: #f7f7f7;
+}
+
+.nav li a:hover {
+  text-shadow: 0 0 1px #eaeaea;
 }
 
 .control-label {

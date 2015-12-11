@@ -370,8 +370,19 @@ footer {
 }
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+  background-color: $gradient-focus;
+  color: $lighter-color;
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
   background-color: $gradient-highlight;
   color: $lighter-color;
+}
+
+.nav li a:hover {
+  // background-color: $gradient-highlight !important;
+  // color: $lighter-color !important; 
+  text-shadow: 0 0 1px $light-color;
 }
 
 //spacing fixes
