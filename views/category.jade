@@ -16,6 +16,9 @@ block content
 				else
 					a(href="/category/"+cat.url, class="btn btn-transparent col-md-4 col-md-offset-2") Links
 		.row
+			.col-md-10.col-md-offset-1
+				include partials/flash
+		.row
 			.col-md-10.col-md-offset-1.padded
 				if links
 					each link in links
