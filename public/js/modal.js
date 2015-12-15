@@ -9,6 +9,7 @@ $(document).ready(function(){
 	});
 
 	$('.fa-edit').on('click', function(event){
+		deleteBody();
 		if(modal){
 			modal.modal();
 			modalHeader('Edit');
@@ -28,7 +29,7 @@ function createBootModal(){
 	    '<div class="modal-content">'+
 	      '<div class="modal-header">'+
 	      '</div>'+
-	      '<div class="modal-body">'+
+	      '<div class="modal-body form-group col-md-10 col-md-offset-1">'+
 	      '</div>'+
 	      '<div class="modal-footer">'+
 	     ' </div>'+
@@ -40,7 +41,7 @@ function createBootModal(){
 }
 
 function modalHeader(title){
-	$('.modal-header').html('<h4 class="modal-title">'+ title +'<button class="btn btn-danger pull-right" data-dismiss="modal">X</button></h4>');
+	$('.modal-header').html('<legend class="modal-title">'+ title +'<button class="closing-btn close pull-right" data-dismiss="modal">✕</button></legend>');
 }
 
 function addToBody(html){
@@ -49,6 +50,7 @@ function addToBody(html){
 
 function deleteBody(){
 	$('.modal-body').html('');
+	$('.modal-footer').html('');
 }
 
 function addId(id){
@@ -56,15 +58,17 @@ function addId(id){
 }
 
 function addTitle(title){
-	addToBody("<input type='text' class='title' value='" + title + "'>");
+	addToBody("<label class='control-label'>Title:</label>");
+	addToBody("<input type='text' placeholder='Link Title' class='title form-control form-group' value='" + title + "'>");
 }
 
 function addUrl(url){
-	addToBody("<input type='text' class='url' value='" + url + "'>");
+	addToBody("<label class='control-label'>URL:</label>");
+	addToBody("<input type='text' placeholder='Link URL' class='url form-control' value='" + url + "'>");
 }
 
 function addSaveButton(){
-	addToBody('<button id="save" class="btn btn-danger" data-dismiss="modal">Save</button>');
+	$('.modal-footer').append('<button id="save" class="btn btn-danger col-sm-3 pull-right" data-dismiss="modal">Save</button>');
 }
 
 function extractData(){

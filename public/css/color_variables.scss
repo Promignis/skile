@@ -5,6 +5,7 @@
 $gradient-highlight: #4f95da;
 $gradient-midtone: #41629b;
 $gradient-shadow: #2e3265;
+$gradient-focus: #94bfea;
 
 // red
 // $gradient-shadow: #650e0c;
@@ -24,6 +25,7 @@ $anchor-color: #3b5998;
 $light-color: lighten($default-color, 5%);
 $lighter-color: lighten($default-color, 10%);
 $dark-color: darken($default-color, 20%);
+$darker-color: darken($default-color, 40%);
 
 $error-color: #e51c23;
 $info-color: #41629b;
